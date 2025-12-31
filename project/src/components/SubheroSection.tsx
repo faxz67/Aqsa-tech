@@ -11,17 +11,11 @@ interface Card {
   description: string;
 }
 
-const SubheroSection: React.FC = () => {
-  const { t, language } = useLanguage();
-  // Business stats and calculations
-  const servicesCount = 10;
-  const providersCount = 300;
-  const customersCount = 10000;
-  const providersPerService = +(providersCount / servicesCount).toFixed(1); // 30
-  const customersPerService = +(customersCount / servicesCount).toFixed(0); // 1000
+const SubheroSection: React.FC = React.memo(() => {
+  const { t } = useLanguage();
 
   const cards: Card[] = React.useMemo(() => {
-    const langTranslations = translations[language as 'EN' | 'AR'];
+    const langTranslations = translations.EN;
     const servicesDesc: unknown = langTranslations.subhero.servicesDescription;
     const providersDesc: unknown = langTranslations.subhero.providersDescription;
     const customersDesc: unknown = langTranslations.subhero.customersDescription;
@@ -32,21 +26,21 @@ const SubheroSection: React.FC = () => {
           icon: Paintbrush,
           title: t('subhero.servicesCount'),
           description: typeof servicesDesc === 'function' 
-            ? (servicesDesc as (() => string) | ((servicesCount: number, customersPerService: number) => string))()
+            ? (servicesDesc as () => string)()
             : String(servicesDesc || ''),
         },
         {
           icon: Users,
           title: t('subhero.providersCount'),
           description: typeof providersDesc === 'function'
-            ? (providersDesc as (() => string) | ((providersCount: number, providersPerService: number) => string))()
+            ? (providersDesc as () => string)()
             : String(providersDesc || ''),
         },
         {
           icon: Smile,
           title: t('subhero.customersCount'),
           description: typeof customersDesc === 'function'
-            ? (customersDesc as (() => string) | ((customersCount: number) => string))()
+            ? (customersDesc as () => string)()
             : String(customersDesc || ''),
         },
       ];
@@ -70,7 +64,7 @@ const SubheroSection: React.FC = () => {
         },
       ];
     }
-  }, [t, language, servicesCount, providersCount, customersCount, providersPerService, customersPerService]);
+  }, [t]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -151,6 +145,8 @@ const SubheroSection: React.FC = () => {
       </motion.div>
     </section>
   );
-};
+});
+
+SubheroSection.displayName = 'SubheroSection';
 
 export default SubheroSection;

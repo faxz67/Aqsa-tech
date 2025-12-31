@@ -62,19 +62,19 @@ const StepByStepGuide: React.FC = () => {
   return (
     <section className="w-full bg-gradient-to-b from-soft-gray-light via-white to-white py-10 sm:py-14 lg:py-16 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
       <div className="max-w-7xl mx-auto w-full overflow-x-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16 items-start w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 xl:gap-16 items-start lg:items-center w-full">
           {/* Left Column - Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="lg:sticky lg:top-8 text-center sm:text-left w-full"
+            className={`lg:sticky lg:top-8 w-full ${isRTL ? 'text-right' : 'text-left'}`}
           >
-            <h2 className={`text-xl sm:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold text-gray-900 leading-tight mb-3 sm:mb-4 lg:mb-6 ${isRTL ? 'sm:text-right' : ''}`}>
+            <h2 className={`text-2xl sm:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-semibold text-gray-900 leading-tight mb-4 sm:mb-5 lg:mb-6 ${isRTL ? 'text-right' : 'text-left'}`}>
               {t('steps.title')}
             </h2>
-            <p className={`text-gray-900 text-xs sm:text-sm lg:text-base xl:text-lg leading-relaxed font-medium ${isRTL ? 'sm:text-right' : ''}`}>
+            <p className={`text-gray-900 text-sm sm:text-base lg:text-lg xl:text-xl leading-relaxed font-medium ${isRTL ? 'text-right' : 'text-left'}`}>
               {t('steps.subtitle')}
             </p>
           </motion.div>
@@ -85,7 +85,7 @@ const StepByStepGuide: React.FC = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            className="space-y-5 sm:space-y-6 lg:space-y-8"
+            className="space-y-4 sm:space-y-5 lg:space-y-6 xl:space-y-8 w-full"
           >
             {steps.map((step, index) => {
               const isActive = step.number === activeStep;
@@ -101,17 +101,17 @@ const StepByStepGuide: React.FC = () => {
                     transition: { duration: 0.25 },
                   }}
                   whileTap={{ scale: 0.98 }}
-                  className={`w-full text-left rounded-2xl sm:rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
-                    isRTL ? 'sm:text-right' : 'sm:text-left'
+                  className={`w-full rounded-2xl sm:rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
+                    isRTL ? 'text-right' : 'text-left'
                   }`}
                 >
                   <div
-                    className={`bg-white rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-5 lg:p-6 xl:p-8 2xl:p-10 shadow-sm hover:shadow-xl transition-all duration-300 w-full ${
+                    className={`bg-white rounded-xl sm:rounded-2xl lg:rounded-3xl p-5 sm:p-6 lg:p-7 xl:p-8 2xl:p-10 shadow-sm hover:shadow-xl transition-all duration-300 w-full ${
                       isActive ? 'ring-2 ring-brand-teal' : ''
                     }`}
                   >
                     {/* Step Number Badge */}
-                    <div className={`mb-3 sm:mb-4 lg:mb-6 ${isRTL ? 'text-right' : 'text-left'}`}>
+                    <div className={`mb-4 sm:mb-5 lg:mb-6 flex ${isRTL ? 'justify-end' : 'justify-start'}`}>
                       <motion.div
                         initial={{ scale: 0 }}
                         whileInView={{ scale: 1 }}
@@ -122,7 +122,7 @@ const StepByStepGuide: React.FC = () => {
                           stiffness: 200,
                           damping: 15,
                         }}
-                        className={`w-10 h-10 sm:w-11 sm:h-11 lg:w-12 lg:h-12 xl:w-14 xl:h-14 rounded-full flex items-center justify-center text-base sm:text-lg lg:text-xl xl:text-2xl font-bold transition-all duration-300 ${
+                        className={`w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 xl:w-20 xl:h-20 rounded-full flex items-center justify-center text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold transition-all duration-300 flex-shrink-0 ${
                           isActive ? 'bg-[#111827] text-white shadow-lg ring-2 ring-brand-blue ring-offset-2' : 'bg-gray-300 text-gray-700 border-2 border-gray-400'
                         }`}
                       >
@@ -132,7 +132,7 @@ const StepByStepGuide: React.FC = () => {
 
                     {/* Step Title */}
                     <h3
-                      className={`text-base sm:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-normal mb-2 sm:mb-3 lg:mb-4 ${
+                      className={`text-lg sm:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-semibold mb-3 sm:mb-4 lg:mb-5 ${
                         isActive ? 'text-gray-900' : 'text-gray-700'
                       } ${isRTL ? 'text-right' : 'text-left'}`}
                     >
@@ -141,7 +141,7 @@ const StepByStepGuide: React.FC = () => {
 
                     {/* Step Description */}
                     <p
-                      className={`text-xs sm:text-sm lg:text-base xl:text-lg leading-relaxed ${
+                      className={`text-sm sm:text-base lg:text-lg xl:text-xl leading-relaxed font-normal ${
                         isActive ? 'text-gray-900' : 'text-gray-700'
                       } ${isRTL ? 'text-right' : 'text-left'}`}
                     >

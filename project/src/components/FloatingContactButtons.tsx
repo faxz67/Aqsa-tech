@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Phone, MessageCircle } from 'lucide-react';
 
 const PHONE_NUMBER = '+971525010132';
 const WHATSAPP_NUMBER = '971525010132';
+const WHATSAPP_MESSAGE = 'Hi Aqsa Tech, I would like to book a service or get a free consultancy.';
 
-const FloatingContactButtons: React.FC = () => {
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    'Hi Aqsa Tech, I would like to book a service or get a free consultancy.',
-  )}`;
+const FloatingContactButtons: React.FC = React.memo(() => {
+  const whatsappUrl = useMemo(
+    () => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`,
+    []
+  );
 
   return (
     <div className="fixed right-4 bottom-4 z-40 flex flex-col gap-3 items-end">
@@ -32,7 +34,9 @@ const FloatingContactButtons: React.FC = () => {
       </a>
     </div>
   );
-};
+});
+
+FloatingContactButtons.displayName = 'FloatingContactButtons';
 
 export default FloatingContactButtons;
 

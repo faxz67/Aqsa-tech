@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { X, Menu, Zap, ChevronDown } from 'lucide-react';
+import { X, Zap, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
   
   const location = useLocation();
   const navigate = useNavigate();
-  const { language, setLanguage, t, isRTL } = useLanguage();
+  const { t, isRTL } = useLanguage();
 
   const [activeSection, setActiveSection] = useState<'home' | 'about' | 'services' | 'contact' | null>('home');
 
@@ -42,35 +42,43 @@ const Navbar: React.FC = () => {
   const navContact = t('nav.contact');
 
   useEffect(() => {
+    let ticking = false;
+    
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 20);
 
-      if (location.pathname === '/') {
-        const hero = document.getElementById('hero');
-        const servicesSection = document.getElementById('services');
-        const contact = document.getElementById('contact');
-        const y = window.scrollY;
+          if (location.pathname === '/') {
+            const hero = document.getElementById('hero');
+            const servicesSection = document.getElementById('services');
+            const contact = document.getElementById('contact');
+            const y = window.scrollY;
 
-        const heroTop = hero?.offsetTop ?? 0;
-        const heroHeight = hero?.offsetHeight ?? 0;
-        const heroBottom = heroTop + heroHeight;
-        const servicesTop = servicesSection?.offsetTop ?? Number.POSITIVE_INFINITY;
-        const contactTop = contact?.offsetTop ?? Number.POSITIVE_INFINITY;
+            const heroTop = hero?.offsetTop ?? 0;
+            const heroHeight = hero?.offsetHeight ?? 0;
+            const heroBottom = heroTop + heroHeight;
+            const servicesTop = servicesSection?.offsetTop ?? Number.POSITIVE_INFINITY;
+            const contactTop = contact?.offsetTop ?? Number.POSITIVE_INFINITY;
 
-        const probeY = y + 120; // point virtuel pour savoir où est le "centre" du viewport sous la navbar
+            const probeY = y + 120;
 
-        // Garder "Home" tant que le centre du viewport est dans le Hero
-        if (probeY < heroBottom - 80) {
-          setActiveSection('home');
-        } else if (probeY < servicesTop - 200) {
-          setActiveSection('about');
-        } else if (probeY < contactTop - 200) {
-          setActiveSection('services');
-        } else {
-          setActiveSection('contact');
-        }
-      } else {
-        setActiveSection(null);
+            if (probeY < heroBottom - 80) {
+              setActiveSection('home');
+            } else if (probeY < servicesTop - 200) {
+              setActiveSection('about');
+            } else if (probeY < contactTop - 200) {
+              setActiveSection('services');
+            } else {
+              setActiveSection('contact');
+            }
+          } else {
+            setActiveSection(null);
+          }
+          
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
@@ -519,30 +527,6 @@ const Navbar: React.FC = () => {
                   {navContact}
                 </motion.span>
               </motion.button>
-            
-
-              {/* CTA Buttons */}
-              <motion.button
-                onClick={() => handleNavClick('/#contact')}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="relative ml-3 px-4 py-1.5 bg-[#111827] text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:bg-black transition-all duration-300 text-xs overflow-hidden group"
-              >
-                {/* Animated shine */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full"
-                  transition={{ duration: 0.6 }}
-                />
-                {/* Glow effect */}
-                <motion.div
-                  className="absolute -inset-1 bg-black/50 rounded-2xl blur-lg opacity-0 group-hover:opacity-60"
-                  transition={{ duration: 0.3 }}
-                />
-                <span className="relative z-10 flex items-center gap-1.5">
-                  <Zap className="w-3 h-3" />
-                  Book Your Free Consultancy
-                </span>
-              </motion.button>
             </div>
 
             {/* Mobile Right Section - CTA Button & Menu */}
@@ -552,31 +536,72 @@ const Navbar: React.FC = () => {
                 onClick={() => handleNavClick('/#contact')}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="relative px-3 py-2 bg-[#111827] text-white text-[10px] font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 whitespace-nowrap flex items-center gap-1.5 overflow-hidden"
+                className="relative px-4 py-2 bg-white text-[#174A67] text-[10px] font-semibold rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] transition-all duration-300 whitespace-nowrap flex items-center gap-1.5 overflow-hidden"
               >
-                <Zap className="w-3 h-3" />
-                <span className="hidden xs:inline">Book Your Free Consultancy</span>
-                <span className="xs:hidden">Book Now</span>
+                {/* Gradient border */}
+                <span className="absolute inset-0 rounded-full bg-gradient-to-r from-[#7DD3FC] via-[#45C0B0] to-[#3B82F6] opacity-100 -z-10" />
+                <span className="absolute inset-[2px] rounded-full bg-white -z-[1]" />
+                <Zap className="w-3 h-3 relative z-10" />
+                <span className="hidden xs:inline relative z-10">Book Your Free Consultancy</span>
+                <span className="xs:hidden relative z-10">Book Now</span>
               </motion.button>
 
-              {/* Hamburger Menu Button */}
+              {/* Hamburger Menu Button - Modern Design */}
               <motion.button
                 onClick={() => setIsSideMenuOpen(!isSideMenuOpen)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative w-10 h-10 flex items-center justify-center text-gray-700 transition-all duration-300 rounded-xl overflow-hidden flex-shrink-0"
+                className="relative w-11 h-11 flex items-center justify-center text-gray-700 transition-all duration-300 rounded-2xl overflow-hidden flex-shrink-0 group"
                 aria-label="Toggle menu"
               >
-                <div className="absolute inset-0 bg-white/80 backdrop-blur-[20px] border border-white/70 shadow-md rounded-xl" />
-                <motion.div
-                  className="relative z-10"
+                {/* Animated background */}
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-br from-white via-white to-gray-50 border border-gray-200/80 shadow-lg rounded-2xl"
                   animate={{
-                    rotate: isSideMenuOpen ? 90 : 0,
+                    backgroundColor: isSideMenuOpen 
+                      ? 'rgba(17, 24, 39, 0.95)' 
+                      : 'rgba(255, 255, 255, 0.95)',
+                    borderColor: isSideMenuOpen 
+                      ? 'rgba(17, 24, 39, 0.3)' 
+                      : 'rgba(229, 231, 235, 0.8)',
                   }}
-                  transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-                >
-                  <Menu className="w-5 h-5" />
-                </motion.div>
+                  transition={{ duration: 0.3 }}
+                />
+                <motion.div 
+                  className="absolute inset-0 backdrop-blur-[20px] rounded-2xl"
+                  animate={{ opacity: isSideMenuOpen ? 0.8 : 1 }}
+                />
+                
+                {/* Custom Hamburger Icon - 3 lines that transform to X */}
+                <div className="relative z-20 w-5 h-5 flex flex-col justify-center items-center">
+                  <motion.span
+                    className="absolute w-5 h-0.5 rounded-full"
+                    style={{ backgroundColor: isSideMenuOpen ? '#ffffff' : '#374151' }}
+                    animate={{
+                      rotate: isSideMenuOpen ? 45 : 0,
+                      y: isSideMenuOpen ? 0 : -6,
+                    }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  />
+                  <motion.span
+                    className="absolute w-5 h-0.5 rounded-full"
+                    style={{ backgroundColor: '#374151' }}
+                    animate={{
+                      opacity: isSideMenuOpen ? 0 : 1,
+                      scale: isSideMenuOpen ? 0 : 1,
+                    }}
+                    transition={{ duration: 0.2 }}
+                  />
+                  <motion.span
+                    className="absolute w-5 h-0.5 rounded-full"
+                    style={{ backgroundColor: isSideMenuOpen ? '#ffffff' : '#374151' }}
+                    animate={{
+                      rotate: isSideMenuOpen ? -45 : 0,
+                      y: isSideMenuOpen ? 0 : 6,
+                    }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  />
+                </div>
               </motion.button>
             </div>
 
@@ -587,36 +612,79 @@ const Navbar: React.FC = () => {
                 onClick={() => handleNavClick('/#contact')}
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative ml-3 px-4 py-1.5 bg-[#111827] text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:bg-black transition-all duration-300 text-xs overflow-hidden group"
+                className="relative ml-3 px-6 py-2.5 bg-white text-[#174A67] font-semibold rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] transition-all duration-300 text-xs overflow-hidden group"
               >
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full"
-                  transition={{ duration: 0.6 }}
-                />
+                {/* Gradient border */}
+                <span className="absolute inset-0 rounded-full bg-gradient-to-r from-[#7DD3FC] via-[#45C0B0] to-[#3B82F6] opacity-100 -z-10" />
+                <span className="absolute inset-[2px] rounded-full bg-white -z-[1]" />
                 <span className="relative z-10 flex items-center gap-1.5">
                   <Zap className="w-3 h-3" />
                   Book Your Free Consultancy
                 </span>
               </motion.button>
 
-              {/* Desktop Menu Button */}
+              {/* Desktop Menu Button - Modern Design */}
               <motion.button
                 onClick={() => setIsSideMenuOpen(!isSideMenuOpen)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative w-11 h-11 ml-2 flex items-center justify-center text-gray-700 transition-all duration-300 rounded-xl overflow-hidden"
+                className="relative w-12 h-12 ml-2 flex items-center justify-center text-gray-700 transition-all duration-300 rounded-2xl overflow-hidden group"
                 aria-label="Toggle menu"
               >
-                <div className="absolute inset-0 bg-white/80 backdrop-blur-[20px] border border-white/70 shadow-md rounded-xl" />
-                <motion.div
-                  className="relative z-10"
+                {/* Animated background */}
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-br from-white via-white to-gray-50 border border-gray-200/80 shadow-lg rounded-2xl"
                   animate={{
-                    rotate: isSideMenuOpen ? 90 : 0,
+                    backgroundColor: isSideMenuOpen 
+                      ? 'rgba(17, 24, 39, 0.95)' 
+                      : 'rgba(255, 255, 255, 0.95)',
+                    borderColor: isSideMenuOpen 
+                      ? 'rgba(17, 24, 39, 0.3)' 
+                      : 'rgba(229, 231, 235, 0.8)',
                   }}
-                  transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-                >
-                  <Menu className="w-5 h-5" />
-                </motion.div>
+                  transition={{ duration: 0.3 }}
+                />
+                <motion.div 
+                  className="absolute inset-0 backdrop-blur-[20px] rounded-2xl"
+                  animate={{ opacity: isSideMenuOpen ? 0.8 : 1 }}
+                />
+                
+                {/* Custom Hamburger Icon - 3 lines that transform to X */}
+                <div className="relative z-20 w-6 h-6 flex flex-col justify-center items-center">
+                  <motion.span
+                    className="absolute w-6 h-0.5 rounded-full"
+                    style={{ 
+                      backgroundColor: isSideMenuOpen ? '#ffffff' : '#374151',
+                    }}
+                    animate={{
+                      rotate: isSideMenuOpen ? 45 : 0,
+                      y: isSideMenuOpen ? 0 : -7,
+                    }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  />
+                  <motion.span
+                    className="absolute w-6 h-0.5 rounded-full"
+                    style={{ 
+                      backgroundColor: '#374151',
+                    }}
+                    animate={{
+                      opacity: isSideMenuOpen ? 0 : 1,
+                      scale: isSideMenuOpen ? 0 : 1,
+                    }}
+                    transition={{ duration: 0.2 }}
+                  />
+                  <motion.span
+                    className="absolute w-6 h-0.5 rounded-full"
+                    style={{ 
+                      backgroundColor: isSideMenuOpen ? '#ffffff' : '#374151',
+                    }}
+                    animate={{
+                      rotate: isSideMenuOpen ? -45 : 0,
+                      y: isSideMenuOpen ? 0 : 7,
+                    }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  />
+                </div>
               </motion.button>
             </div>
           </div>
@@ -639,31 +707,38 @@ const Navbar: React.FC = () => {
               }}
             />
             
-            {/* Side Menu Panel */}
+            {/* Side Menu Panel - Enhanced Design */}
             <motion.div
-              initial={{ x: isRTL ? '-100%' : '100%', opacity: 0, scale: 0.95 }}
+              initial={{ x: isRTL ? '-100%' : '100%', opacity: 0, scale: 0.96 }}
               animate={{ x: 0, opacity: 1, scale: 1 }}
-              exit={{ x: isRTL ? '-100%' : '100%', opacity: 0, scale: 0.95 }}
-              transition={{ type: 'spring', damping: 26, stiffness: 230, duration: 0.5 }}
-              className={`fixed ${isRTL ? 'left-0' : 'right-0'} top-0 h-full w-[85vw] sm:w-80 max-w-[320px] z-[70] overflow-y-auto ${isRTL ? 'rounded-r-3xl' : 'rounded-l-3xl'}`}
+              exit={{ x: isRTL ? '-100%' : '100%', opacity: 0, scale: 0.96 }}
+              transition={{ type: 'spring', damping: 28, stiffness: 260, duration: 0.4 }}
+              className={`fixed ${isRTL ? 'left-0' : 'right-0'} top-0 h-full w-[85vw] sm:w-80 max-w-[340px] z-[70] overflow-y-auto ${isRTL ? 'rounded-r-3xl' : 'rounded-l-3xl'}`}
             >
-              <div className={`h-full bg-white/[0.72] backdrop-blur-[40px] backdrop-saturate-[180%] shadow-[0_26px_70px_rgba(0,0,0,0.25)] ${isRTL ? 'border-r' : 'border-l'} border-white/[0.18] ${isRTL ? 'rounded-r-3xl' : 'rounded-l-3xl'} flex flex-col relative overflow-hidden`}>
-                {/* iOS vibrancy layers */}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/50 via-white/30 to-white/20" />
-                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.2)_0%,transparent_50%,rgba(255,255,255,0.1)_100%)]" />
+              <div className={`h-full bg-gradient-to-br from-white via-white to-gray-50/50 backdrop-blur-[40px] backdrop-saturate-[180%] shadow-[0_26px_70px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.9)] ${isRTL ? 'border-r' : 'border-l'} border-gray-200/60 ${isRTL ? 'rounded-r-3xl' : 'rounded-l-3xl'} flex flex-col relative overflow-hidden`}>
+                {/* Enhanced gradient overlays */}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/60 via-white/40 to-transparent" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-transparent" />
+                <div className="pointer-events-none absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white/80 to-transparent" />
                 
-                {/* Close Button */}
-                <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200/80 relative z-10">
-                  <h2 className="text-lg font-semibold text-gray-900">
+                {/* Header with Close Button - Enhanced */}
+                <div className="flex items-center justify-between px-6 py-6 border-b border-gray-200/60 relative z-10 bg-white/30 backdrop-blur-sm">
+                  <motion.h2 
+                    className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 }}
+                  >
                     Menu
-                  </h2>
+                  </motion.h2>
                   <motion.button
                     onClick={() => setIsSideMenuOpen(false)}
-                    whileHover={{ scale: 1.1 }}
+                    whileHover={{ scale: 1.1, rotate: 90 }}
                     whileTap={{ scale: 0.9 }}
-                    className="p-2 text-gray-700 hover:text-gray-900 transition-colors rounded-full hover:bg-gray-100"
+                    className="relative w-10 h-10 flex items-center justify-center text-gray-700 hover:text-gray-900 transition-colors rounded-xl hover:bg-gray-100/80 group"
                   >
-                    <X className="w-5 h-5" />
+                    <div className="absolute inset-0 bg-gray-100/50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <X className="w-5 h-5 relative z-10" />
                   </motion.button>
                 </div>
 
@@ -877,25 +952,25 @@ const Navbar: React.FC = () => {
                    <div className="space-y-1.5">
                      <motion.div
                        whileHover={{ scale: 1.02, x: -1 }}
-                       className={`block w-full px-4 py-2.5 text-gray-700 bg-gray-50 rounded-full border border-gray-200 shadow-sm ${language === 'AR' ? 'text-right' : 'text-left'}`}
+                       className="block w-full px-4 py-2.5 text-gray-700 bg-gray-50 rounded-full border border-gray-200 shadow-sm text-left"
                      >
                        References
                      </motion.div>
                      <motion.div
                        whileHover={{ scale: 1.02, x: -1 }}
-                       className={`block w-full px-4 py-2.5 text-gray-700 bg-gray-50 rounded-full border border-gray-200 shadow-sm ${language === 'AR' ? 'text-right' : 'text-left'}`}
+                       className="block w-full px-4 py-2.5 text-gray-700 bg-gray-50 rounded-full border border-gray-200 shadow-sm text-left"
                      >
                        Aqsatech Magazine
                      </motion.div>
                      <motion.div
                        whileHover={{ scale: 1.02, x: -1 }}
-                       className={`block w-full px-4 py-2.5 text-gray-700 bg-gray-50 rounded-full border border-gray-200 shadow-sm ${language === 'AR' ? 'text-right' : 'text-left'}`}
+                       className="block w-full px-4 py-2.5 text-gray-700 bg-gray-50 rounded-full border border-gray-200 shadow-sm text-left"
                      >
                        Discover
                      </motion.div>
                      <motion.div
                        whileHover={{ scale: 1.02, x: -1 }}
-                       className={`block w-full px-4 py-2.5 text-gray-700 bg-gray-50 rounded-full border border-gray-200 shadow-sm ${language === 'AR' ? 'text-right' : 'text-left'}`}
+                       className="block w-full px-4 py-2.5 text-gray-700 bg-gray-50 rounded-full border border-gray-200 shadow-sm text-left"
                      >
                        Newsletter
                      </motion.div>
@@ -1099,9 +1174,12 @@ const Navbar: React.FC = () => {
                     }}
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-full px-6 py-3 bg-[#111827] text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl hover:bg-black transition-all duration-300"
+                    className="relative w-full px-6 py-3 bg-white text-[#174A67] font-semibold rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] transition-all duration-300 overflow-hidden"
                   >
-                    Book Your Free Consultancy
+                    {/* Gradient border */}
+                    <span className="absolute inset-0 rounded-full bg-gradient-to-r from-[#7DD3FC] via-[#45C0B0] to-[#3B82F6] opacity-100 -z-10" />
+                    <span className="absolute inset-[2px] rounded-full bg-white -z-[1]" />
+                    <span className="relative z-10">Book Your Free Consultancy</span>
                   </motion.button>
                 </div>
               </motion.div>

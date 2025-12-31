@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { PhoneCall, Send, CheckCircle, Mail, Building2, Clock, Shield, FileText, Award, DollarSign } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ProButton from './ui/ProButton';
 import SpotlightCard from './ui/SpotlightCard';
 import { useLanguage } from '../contexts/LanguageContext';
 
-const GetInTouch: React.FC = () => {
+const GetInTouch: React.FC = React.memo(() => {
   const { t, isRTL } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
@@ -17,13 +17,13 @@ const GetInTouch: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value,
     }));
-  };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -506,7 +506,7 @@ const GetInTouch: React.FC = () => {
                     <div className="relative w-full z-10">
                       <a
                         href="tel:+971525010132"
-                        className={`relative flex items-center justify-center gap-2 sm:gap-3 w-full bg-[#111827] hover:bg-[#1F2937] active:bg-[#0F172A] text-white font-bold py-4 sm:py-5 lg:py-6 px-5 sm:px-6 lg:px-8 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] text-base sm:text-lg lg:text-xl overflow-hidden group border-2 border-gray-900 ${isRTL ? 'flex-row-reverse' : ''}`}
+                        className={`relative flex items-center justify-center gap-2 sm:gap-3 w-full bg-white text-[#174A67] font-bold py-4 sm:py-5 lg:py-6 px-5 sm:px-6 lg:px-8 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] text-base sm:text-lg lg:text-xl overflow-hidden group ${isRTL ? 'flex-row-reverse' : ''}`}
                         style={{
                           boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2)',
                         }}
@@ -521,8 +521,9 @@ const GetInTouch: React.FC = () => {
                         <PhoneCall className={`w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 flex-shrink-0 relative z-10 animate-pulse group-hover:animate-none ${isRTL ? 'order-2' : ''}`} />
                         <span className="relative z-10 font-extrabold tracking-wide">+971 52 501 0132</span>
                         
-                        {/* Glow effect on hover */}
-                        <div className="absolute -inset-1 bg-[#111827] rounded-xl opacity-0 group-hover:opacity-50 blur-xl transition-opacity duration-300 -z-10" />
+                        {/* Gradient border */}
+                        <span className="absolute inset-0 rounded-full bg-gradient-to-r from-[#7DD3FC] via-[#45C0B0] to-[#3B82F6] opacity-100 -z-10" />
+                        <span className="absolute inset-[2px] rounded-full bg-white -z-[1]" />
                       </a>
                     </div>
                   </div>
@@ -534,6 +535,8 @@ const GetInTouch: React.FC = () => {
       </div>
     </section>
   );
-};
+});
+
+GetInTouch.displayName = 'GetInTouch';
 
 export default GetInTouch;

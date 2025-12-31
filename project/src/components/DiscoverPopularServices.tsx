@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -25,7 +25,9 @@ const DiscoverPopularServices: React.FC = () => {
   const [gap, setGap] = useState(12);
 
   const AUTO_INTERVAL = 2000; // smoother auto advance (ms)
-  const services: Service[] = [
+  
+  // Memoize services array to prevent recreation on every render
+  const services: Service[] = useMemo(() => [
     {
       id: 1,
       title: 'Wall Paper Fixing',
@@ -152,24 +154,23 @@ const DiscoverPopularServices: React.FC = () => {
       image: '/Services Stock images/AC Coil Cleaning.png',
       tags: ['AC Coil Cleaning', 'Performance', 'Energy Saving'],
     },
-  ];
+  ], []);
 
-
-  // Map local services to translated services for descriptions
-  const getServiceDescription = (serviceId: number) => {
+  // Memoize service lookup functions to prevent recreation
+  const getServiceDescription = useCallback((serviceId: number) => {
     const fullService = allServices.find(s => s.id === serviceId);
     return fullService?.description || '';
-  };
+  }, [allServices]);
 
-  const getServiceTitle = (serviceId: number) => {
+  const getServiceTitle = useCallback((serviceId: number) => {
     const fullService = allServices.find(s => s.id === serviceId);
     return fullService?.title || '';
-  };
+  }, [allServices]);
 
-  const getServiceSlug = (serviceId: number) => {
+  const getServiceSlug = useCallback((serviceId: number) => {
     const fullService = allServices.find(s => s.id === serviceId);
     return fullService?.slug || '';
-  };
+  }, [allServices]);
 
   // For continuous running ribbon feel, duplicate the array multiple times
   const ribbonServices = useMemo(() => [...services, ...services, ...services, ...services], [services, allServices]);

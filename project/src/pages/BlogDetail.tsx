@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Clock, User, Home, Share2 } from 'lucide-react';
@@ -17,16 +17,23 @@ export default function BlogDetail() {
   const { translatedPosts } = useTranslatedBlogPosts();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   }, [slug]);
 
-  const originalPost = blogPosts.find((p) => p.slug === slug);
-  const translatedPost = translatedPosts.find((p) => p.slug === slug);
-  const post = translatedPost || originalPost;
+  const post = useMemo(() => {
+    const originalPost = blogPosts.find((p) => p.slug === slug);
+    const translatedPost = translatedPosts.find((p) => p.slug === slug);
+    return translatedPost || originalPost;
+  }, [slug, translatedPosts]);
   
-  const relatedPosts = translatedPosts
-    .filter((p) => p.slug !== slug && p.category === post?.category)
-    .slice(0, 3);
+  const relatedPosts = useMemo(() => {
+    if (!post) return [];
+    return translatedPosts
+      .filter((p) => p.slug !== slug && p.category === post.category)
+      .slice(0, 3);
+  }, [slug, post, translatedPosts]);
 
   if (!post) {
     return (
@@ -42,12 +49,12 @@ export default function BlogDetail() {
     );
   }
 
-  const handleShare = async () => {
+  const handleShare = useCallback(async () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: post.title,
-          text: post.excerpt,
+          title: post?.title || '',
+          text: post?.excerpt || '',
           url: window.location.href,
         });
       } catch (err) {
@@ -57,7 +64,7 @@ export default function BlogDetail() {
       navigator.clipboard.writeText(window.location.href);
       alert(t('common.linkCopied'));
     }
-  };
+  }, [post, t]);
 
   if (!post) {
     return (

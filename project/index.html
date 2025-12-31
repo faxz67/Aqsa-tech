@@ -42,7 +42,6 @@
     
     <!-- Alternate Languages -->
     <link rel="alternate" hreflang="en" href="https://aqsatech.ae/" />
-    <link rel="alternate" hreflang="ar" href="https://aqsatech.ae/?lang=ar" />
     <link rel="alternate" hreflang="x-default" href="https://aqsatech.ae/" />
     
     <!-- Open Graph / Facebook -->
@@ -56,7 +55,6 @@
     <meta property="og:image:alt" content="Aqsa Tech - AQSATECH Property Maintenance Services Dubai" />
     <meta property="og:site_name" content="Aqsa Tech - AQSATECH" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:locale:alternate" content="ar_AE" />
     <meta property="business:contact_data:street_address" content="United Arab Emirates" />
     <meta property="business:contact_data:locality" content="Dubai" />
     <meta property="business:contact_data:region" content="Dubai" />
@@ -147,59 +145,46 @@
   <!-- DNS Prefetch for external resources -->
   <link rel="dns-prefetch" href="https://api.web3forms.com">
   
-  <!-- Preconnect to critical domains -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  
   <!-- Verification & Discovery -->
   <meta name="google-site-verification" content="" />
   <meta name="msvalidate.01" content="" />
   <meta name="yandex-verification" content="" />
-  <link rel="pingback" href="https://aqsatech.ae/xmlrpc.php" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <script>
-      // Performance: Optimize resource loading
+      // Performance: Optimize resource loading with requestIdleCallback
       if ('requestIdleCallback' in window) {
         requestIdleCallback(() => {
-          // Preload non-critical resources when idle
+          // Lazy load non-critical resources when browser is idle
+          const nonCriticalResources = [];
+          nonCriticalResources.forEach(resource => {
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = resource;
+            document.head.appendChild(link);
+          });
         }, { timeout: 2000 });
       }
       
-      // Performance: Preconnect to critical domains
-      // Wait for DOM to be ready
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-          const preconnectDomains = [
-            'https://fonts.googleapis.com',
-            'https://fonts.gstatic.com',
-          ];
-          preconnectDomains.forEach(domain => {
-            const link = document.createElement('link');
-            link.rel = 'preconnect';
-            link.href = domain;
-            link.crossOrigin = 'anonymous';
-            if (document.head) {
-              document.head.appendChild(link);
+      // Performance: Measure and log Core Web Vitals
+      if ('PerformanceObserver' in window) {
+        try {
+          const observer = new PerformanceObserver((list) => {
+            for (const entry of list.getEntries()) {
+              if (entry.entryType === 'largest-contentful-paint') {
+                console.log('LCP:', entry.renderTime || entry.loadTime);
+              }
+              if (entry.entryType === 'first-input') {
+                console.log('FID:', entry.processingStart - entry.startTime);
+              }
             }
           });
-        });
-      } else {
-        const preconnectDomains = [
-          'https://fonts.googleapis.com',
-          'https://fonts.gstatic.com',
-        ];
-        preconnectDomains.forEach(domain => {
-          const link = document.createElement('link');
-          link.rel = 'preconnect';
-          link.href = domain;
-          link.crossOrigin = 'anonymous';
-          if (document.head) {
-            document.head.appendChild(link);
-          }
-        });
+          observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input'] });
+        } catch (e) {
+          // Silently fail if PerformanceObserver is not supported
+        }
       }
     </script>
   </body>

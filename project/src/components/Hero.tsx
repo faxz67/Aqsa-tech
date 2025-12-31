@@ -22,21 +22,11 @@ const HeroSection: React.FC = () => {
   const videoScale = useTransform(scrollYProgress, [0, 1], [1.1, 1.3]);
 
   useEffect(() => {
-    // Lazy load video when component mounts (hero is above fold)
-    // Use requestIdleCallback for better performance
-    const loadVideo = () => {
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => {
-          setShouldLoadVideo(true);
-        }, { timeout: 200 });
-      } else {
-        setTimeout(() => {
-          setShouldLoadVideo(true);
-        }, 100);
-      }
-    };
-    
-    loadVideo();
+    // Load video immediately for hero (above fold, critical content)
+    // Use requestAnimationFrame for smoother initialization
+    requestAnimationFrame(() => {
+      setShouldLoadVideo(true);
+    });
   }, []);
 
   return (

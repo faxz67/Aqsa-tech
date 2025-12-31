@@ -29,20 +29,20 @@ type AnchorProps = AnchorNativeProps & CommonProps & {
 export type ProButtonProps = ButtonProps | AnchorProps;
 
 const sizeClasses: Record<Size, string> = {
-  sm: 'text-xs px-3 py-1.5 rounded-[14px]',
-  md: 'text-sm px-5 py-2.5 rounded-[16px]',
-  lg: 'text-base px-7 py-3.5 rounded-[18px]'
+  sm: 'text-xs px-4 py-2 rounded-full',
+  md: 'text-sm px-6 py-2.5 rounded-full',
+  lg: 'text-base px-8 py-3.5 rounded-full'
 };
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    'text-white bg-gradient-to-br from-brand-teal to-brand-blue shadow-[0_12px_24px_-12px_rgba(15,23,42,0.55)] hover:from-brand-teal/90 hover:to-brand-blue/90',
+    'text-[#174A67] bg-white border-2 border-transparent bg-clip-padding shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)]',
   secondary:
-    'bg-soft-gray-light text-brand-blue border border-brand-blue/40 hover:bg-white hover:text-brand-blue shadow-[0_8px_18px_-10px_rgba(15,23,42,0.25)]',
+    'text-[#174A67] bg-white border-2 border-transparent bg-clip-padding shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)]',
   outline:
-    'bg-transparent text-brand-blue border border-brand-blue hover:bg-brand-blue hover:text-white shadow-none',
+    'text-[#174A67] bg-white border-2 border-transparent bg-clip-padding shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)]',
   dark:
-    'text-white bg-[#111827] hover:bg-black shadow-[0_14px_28px_-16px_rgba(15,23,42,0.75)]'
+    'text-gray-900 bg-white border-2 border-transparent bg-clip-padding shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)]'
 };
 
 export default function ProButton(props: ProButtonProps) {
@@ -58,11 +58,12 @@ export default function ProButton(props: ProButtonProps) {
     ...rest
   } = props;
 
-  const isOutline = variant === 'outline';
-  const isPrimary = variant === 'primary';
+  // Determine text color based on variant
+  const textColorClass = variant === 'dark' ? 'text-gray-900' : 'text-[#174A67]';
+
   const base = `relative inline-flex items-center justify-center select-none no-underline font-semibold tracking-tight ${
     sizeClasses[size as Size]
-  } ${variantClasses[variant as Variant]} ${fullWidth ? 'w-full' : ''} transition-all duration-300 ease-out group pro-btn-shape pro-btn-animated ${isOutline ? 'pro-btn-outline' : ''} ${isPrimary ? 'pro-btn-primary-shimmer' : ''} focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/50 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100`;
+  } ${variantClasses[variant as Variant]} ${fullWidth ? 'w-full' : ''} transition-all duration-300 ease-out group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/50 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 overflow-hidden`;
 
   const inner = `relative flex items-center gap-2`;
 
@@ -71,32 +72,20 @@ export default function ProButton(props: ProButtonProps) {
 
   const content = (
     <>
-      {/* Corner accent */}
+      {/* Gradient border background */}
       <span
         aria-hidden
-        className="pro-btn-corner"
+        className="absolute inset-0 rounded-full bg-gradient-to-r from-[#7DD3FC] via-[#45C0B0] to-[#3B82F6] opacity-100 -z-10"
       />
-      {/* Shine on hover */}
+      {/* White background overlay */}
       <span
         aria-hidden
-        className="pro-btn-shine"
+        className="absolute inset-[2px] rounded-full bg-white -z-[1]"
       />
-      {/* Glow effect */}
-      <span
-        aria-hidden
-        className="pro-btn-glow"
-      />
-      {/* Pulse effect for primary buttons */}
-      {variant === 'primary' && (
-        <span
-          aria-hidden
-          className="pro-btn-pulse"
-        />
-      )}
-      <span className={inner}>
-        {leftIcon && <span className="flex items-center -ml-0.5 pro-btn-icon-left">{leftIcon}</span>}
-        <span className="pro-btn-text">{children}</span>
-        {rightIcon && <span className="flex items-center -mr-0.5 pro-btn-icon-right">{rightIcon}</span>}
+      <span className={`${inner} relative z-10`}>
+        {leftIcon && <span className={`flex items-center -ml-0.5 pro-btn-icon-left ${textColorClass}`}>{leftIcon}</span>}
+        <span className={`pro-btn-text ${textColorClass} font-semibold`}>{children}</span>
+        {rightIcon && <span className={`flex items-center -mr-0.5 pro-btn-icon-right ${textColorClass}`}>{rightIcon}</span>}
       </span>
     </>
   );

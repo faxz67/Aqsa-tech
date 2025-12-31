@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useMemo, useCallback } from 'react';
 import { translations } from '../translations';
 
 type Language = 'EN';
@@ -27,18 +27,18 @@ interface LanguageProviderProps {
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>('EN');
 
-  const setLanguage = (lang: Language) => {
+  const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang);
     document.documentElement.lang = 'en';
     document.documentElement.dir = 'ltr';
-  };
+  }, []);
 
   useEffect(() => {
     document.documentElement.lang = 'en';
     document.documentElement.dir = 'ltr';
   }, [language]);
 
-  const t = (key: string, params?: Record<string, string>): string => {
+  const t = useCallback((key: string, params?: Record<string, string>): string => {
     const keys = key.split('.');
     let value: unknown = translations[language];
     for (const k of keys) {
@@ -68,12 +68,19 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       return result;
     }
     return (typeof value === 'string' ? value : key);
-  };
+  }, [language]);
 
   const isRTL = false;
 
+  const contextValue = useMemo(() => ({
+    language,
+    setLanguage,
+    t,
+    isRTL
+  }), [language, setLanguage, t]);
+
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t, isRTL }}>
+    <LanguageContext.Provider value={contextValue}>
       {children}
     </LanguageContext.Provider>
   );

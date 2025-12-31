@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useLanguage } from '../contexts/LanguageContext';
 
 interface StructuredDataProps {
   type: 'Organization' | 'LocalBusiness' | 'Service' | 'Article' | 'BreadcrumbList';
@@ -9,7 +8,6 @@ interface StructuredDataProps {
 
 const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
   const location = useLocation();
-  const { language } = useLanguage();
   const baseUrl = 'https://aqsatech.ae';
   const socialProfiles = [
     'https://www.facebook.com/share/1CiAnnR5uL/',
@@ -32,11 +30,11 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
           url: baseUrl,
           logo: {
             '@type': 'ImageObject',
-            url: `${baseUrl}/Logo.jpg`,
+            url: `${baseUrl}/Logo Chatgpt.png`,
             width: 1200,
             height: 630,
           },
-          image: `${baseUrl}/Logo.jpg`,
+          image: `${baseUrl}/Logo Chatgpt.png`,
           description: "UAE's leading technical services company providing AC service, home maintenance, renovation, handyman, plumbing, electrical, and fit out services across Dubai, Abu Dhabi, Sharjah.",
           foundingDate: '2020',
           telephone: '+971525010132',
@@ -283,7 +281,7 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
             '@type': 'Article',
             headline: data.headline || '',
             description: data.description || '',
-            image: data.image || `${baseUrl}/Logo.jpg`,
+            image: data.image || `${baseUrl}/Logo Chatgpt.png`,
             datePublished: data.datePublished || '',
             dateModified: data.dateModified || data.datePublished || '',
             author: {
@@ -295,7 +293,7 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
               name: 'Aqsa Tech - AQSATECH',
               logo: {
                 '@type': 'ImageObject',
-                url: `${baseUrl}/Logo.jpg`,
+                url: `${baseUrl}/Logo Chatgpt.png`,
               },
             },
             mainEntityOfPage: {
@@ -337,7 +335,7 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
         scriptToRemove.remove();
       }
     };
-  }, [type, data, location, language, baseUrl]);
+  }, [type, data, location, baseUrl]);
 
   return null;
 };

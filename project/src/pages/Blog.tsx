@@ -1,53 +1,57 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import ProButton from '../components/ui/ProButton';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTranslatedBlogPosts } from '../hooks/useTranslatedBlogPosts';
 import { generateWhatsAppUrl, WHATSAPP_PHONE } from '../utils/whatsapp';
 
+// Memoize animation variants outside component
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.4,
+    },
+  },
+};
+
 export default function Blog() {
-  const { t, isRTL, language } = useLanguage();
+  const { t, isRTL } = useLanguage();
   const navigate = useNavigate();
   const { translatedPosts, translatedCategories } = useTranslatedBlogPosts();
-  const allCategoriesKey = translatedCategories[0]; // First category is "All" or "الكل"
+  const allCategoriesKey = translatedCategories[0];
   const [activeCategory, setActiveCategory] = useState(allCategoriesKey);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   }, []);
 
   useEffect(() => {
-    // Update active category when language changes
     setActiveCategory(translatedCategories[0]);
-  }, [language, translatedCategories]);
+  }, [translatedCategories]);
 
-  const filteredPosts = activeCategory === allCategoriesKey
-    ? translatedPosts 
-    : translatedPosts.filter(post => post.category === activeCategory);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
+  const filteredPosts = useMemo(() => {
+    return activeCategory === allCategoriesKey
+      ? translatedPosts 
+      : translatedPosts.filter(post => post.category === activeCategory);
+  }, [activeCategory, allCategoriesKey, translatedPosts]);
 
   return (
     <div className="min-h-screen bg-soft-gray-light pt-20 sm:pt-24 overflow-x-hidden">

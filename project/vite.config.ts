@@ -29,7 +29,7 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom'],
+    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion'],
     exclude: ['lucide-react'],
   },
   server: {
@@ -78,27 +78,27 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // React core
+          // React core - critical, load first
           if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
             return 'react-vendor';
           }
-          // React Router
+          // React Router - critical for navigation
           if (id.includes('node_modules/react-router')) {
             return 'react-router';
           }
-          // Framer Motion
+          // Framer Motion - animation library, can be lazy loaded
           if (id.includes('node_modules/framer-motion')) {
             return 'framer-motion';
           }
-          // Lucide icons
+          // Lucide icons - large, lazy load
           if (id.includes('node_modules/lucide-react')) {
             return 'lucide-icons';
           }
-          // GSAP
+          // GSAP - animation, lazy load
           if (id.includes('node_modules/gsap')) {
             return 'gsap';
           }
-          // Supabase
+          // Supabase - API client, lazy load
           if (id.includes('node_modules/@supabase')) {
             return 'supabase';
           }

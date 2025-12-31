@@ -6,17 +6,34 @@ import { LanguageProvider } from './contexts/LanguageContext';
 // Lazy load App for code splitting
 const App = lazy(() => import('./App.tsx'));
 
-// Performance: Register Service Worker for caching
+// Performance: Register Service Worker for caching (non-blocking)
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/sw.js')
-      .then((registration) => {
-        console.log('SW registered:', registration);
-      })
-      .catch((error) => {
-        console.log('SW registration failed:', error);
-      });
+  // Use requestIdleCallback for non-critical service worker registration
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .catch(() => {
+          // Silently fail - service worker is not critical
+        });
+    }, { timeout: 5000 });
+  } else {
+    const handleLoad = (): void => {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .catch(() => {
+          // Silently fail
+        });
+    };
+    const win = window as Window & typeof globalThis;
+    win.addEventListener('load', handleLoad);
+  }
+}
+
+// Performance: Initialize performance monitoring in development
+if (import.meta.env.DEV) {
+  import('./utils/performance').then(({ measurePerformance }) => {
+    measurePerformance();
   });
 }
 

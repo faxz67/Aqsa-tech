@@ -15,9 +15,9 @@ const About = lazy(() => import('./components/About'));
 const Services = lazy(() => import('./components/Services'));
 const Projects = lazy(() => import('./components/Projects'));
 const Contact = lazy(() => import('./components/Contact'));
-import GetInTouch from './components/GetInTouch.tsx';
+const GetInTouch = lazy(() => import('./components/GetInTouch'));
 const Footer = lazy(() => import('./components/Footer'));
-import AdminLogin from './components/AdminLogin';
+const AdminLogin = lazy(() => import('./components/AdminLogin'));
 const AllServices = lazy(() => import('./pages/AllServices'));
 const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
 const Blog = lazy(() => import('./pages/Blog'));
@@ -48,12 +48,15 @@ const SmoothLoader = () => (
   </motion.div>
 );
 
-// Scroll to top on route change
+// Scroll to top on route change - Optimized with requestAnimationFrame
 function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Use requestAnimationFrame for smoother scroll
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   }, [pathname]);
 
   return null;
@@ -75,8 +78,8 @@ function HomePage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <Suspense fallback={<SmoothLoader />}>
           <SubheroSection />
@@ -85,8 +88,8 @@ function HomePage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <Suspense fallback={<SmoothLoader />}>
           <About />
@@ -95,8 +98,8 @@ function HomePage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <Suspense fallback={<SmoothLoader />}>
           <DiscoverPopularServices />
@@ -129,8 +132,8 @@ function HomePage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <Suspense fallback={<SmoothLoader />}>
           <Services />
@@ -139,8 +142,8 @@ function HomePage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <Suspense fallback={<SmoothLoader />}>
           <Projects />
@@ -164,8 +167,8 @@ function HomePage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <Suspense fallback={<SmoothLoader />}>
           <GetInTouch />
@@ -174,8 +177,8 @@ function HomePage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <Suspense fallback={<SmoothLoader />}>
           <Footer />

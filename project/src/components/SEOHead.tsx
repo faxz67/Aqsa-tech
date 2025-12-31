@@ -15,12 +15,12 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   title,
   description,
   keywords,
-  image = 'https://aqsatech.ae/Logo.jpg',
+  image = 'https://aqsatech.ae/Logo Chatgpt.png',
   type = 'website',
   noindex = false,
 }) => {
   const location = useLocation();
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
   
   const baseUrl = 'https://aqsatech.ae';
   const currentUrl = `${baseUrl}${location.pathname}`;
@@ -108,12 +108,11 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     };
 
     updateHreflang('en', `${currentUrl}${location.search ? location.search : ''}`);
-    updateHreflang('ar', `${currentUrl}${location.search.includes('lang') ? location.search : '?lang=ar'}`);
     updateHreflang('x-default', currentUrl);
 
     // Update HTML lang attribute
-    document.documentElement.lang = language.toLowerCase();
-  }, [finalTitle, finalDescription, finalKeywords, currentUrl, image, type, noindex, language, location]);
+    document.documentElement.lang = 'en';
+  }, [finalTitle, finalDescription, finalKeywords, currentUrl, image, type, noindex, location]);
 
   return null;
 };
