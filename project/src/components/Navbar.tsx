@@ -6,12 +6,12 @@ import { useLanguage } from '../contexts/LanguageContext';
 
 // Nested Menu Items for Services
 const servicesNestedItems = [
-  { titleEn: 'AC Services', titleAr: 'خدمات التكييف', path: '/services/ac-installation' },
-  { titleEn: 'Plumbing & Sanitary', titleAr: 'السباكة والصرف الصحي', path: '/services/plumbing-sanitary' },
-  { titleEn: 'Painting', titleAr: 'الدهان', path: '/services/painting-contracting' },
-  { titleEn: 'Carpentry & Flooring', titleAr: 'النجارة والأرضيات', path: '/services/carpentry-flooring' },
-  { titleEn: 'Electrical Works', titleAr: 'الأعمال الكهربائية', path: '/services/electromechanical-equipment' },
-  { titleEn: 'Tiling', titleAr: 'أعمال البلاط', path: '/services/floor-and-wall-tiling' },
+  { title: 'AC Services', path: '/services/ac-installation' },
+  { title: 'Plumbing & Sanitary', path: '/services/plumbing-sanitary' },
+  { title: 'Painting', path: '/services/painting-contracting' },
+  { title: 'Carpentry & Flooring', path: '/services/carpentry-flooring' },
+  { title: 'Electrical Works', path: '/services/electromechanical-equipment' },
+  { title: 'Tiling', path: '/services/floor-and-wall-tiling' },
 ];
 
 const Navbar: React.FC = () => {
@@ -24,10 +24,7 @@ const Navbar: React.FC = () => {
   
   const location = useLocation();
   const navigate = useNavigate();
-  const { language, setLanguage, t } = useLanguage();
-  
-  // RTL support for Arabic language
-  const isRTL = language === 'AR';
+  const { language, setLanguage, t, isRTL } = useLanguage();
 
   const [activeSection, setActiveSection] = useState<'home' | 'about' | 'services' | 'contact' | null>('home');
 
@@ -170,8 +167,8 @@ const Navbar: React.FC = () => {
                   alt="Aqsa Tech Logo"
                   loading="eager"
                   fetchPriority="high"
-                  className="h-10 sm:h-16 md:h-20 lg:h-24 w-auto object-contain transition-all duration-300 group-hover:opacity-90"
-                  style={{ maxHeight: '48px' }}
+                  className="h-20 sm:h-32 md:h-36 lg:h-40 w-auto object-contain transition-all duration-300 group-hover:opacity-90"
+                  style={{ maxHeight: '80px' }}
                   onError={(e) => {
                     console.error('Logo failed to load');
                     e.currentTarget.style.display = 'none';
@@ -334,7 +331,7 @@ const Navbar: React.FC = () => {
                             />
                             <span className="relative z-10 flex items-center gap-2">
                               <span className="text-brand-blue">✨</span>
-                              {language === 'AR' ? 'الخدمات الشائعة' : 'Popular Services'}
+                              Popular Services
                             </span>
                             <ChevronDown 
                               className={`w-4 h-4 text-brand-blue transition-transform duration-300 relative z-10 ${isNestedOpen ? 'rotate-180' : ''}`}
@@ -371,7 +368,7 @@ const Navbar: React.FC = () => {
                                       />
                                       <span className="relative z-10 group-hover:text-brand-blue font-medium transition-colors duration-200 flex items-center gap-2">
                                         <span className="text-xs opacity-50">→</span>
-                                        {language === 'AR' ? item.titleAr : item.titleEn}
+                                        {item.title}
                                       </span>
                                     </motion.button>
                                   ))}
@@ -406,10 +403,10 @@ const Navbar: React.FC = () => {
                             <div>
                               <div className="font-bold text-gray-900 group-hover:text-brand-blue transition-colors flex items-center gap-2">
                                 <span>📋</span>
-                                {language === 'AR' ? 'جميع الخدمات' : 'All Services'}
+                                All Services
                               </div>
                               <div className="text-xs text-gray-500 mt-0.5">
-                                {language === 'AR' ? 'عرض القائمة الكاملة' : 'View complete catalog'}
+                                View complete catalog
                               </div>
                             </div>
                             <span className="text-brand-blue opacity-0 group-hover:opacity-100 transition-opacity">→</span>
@@ -433,10 +430,10 @@ const Navbar: React.FC = () => {
                             <div>
                               <div className="font-bold text-gray-900 group-hover:text-purple-600 transition-colors flex items-center gap-2">
                                 <span>📝</span>
-                                {language === 'AR' ? 'المدونة والنصائح' : 'Blog & Tips'}
+                                Blog & Tips
                               </div>
                               <div className="text-xs text-gray-500 mt-0.5">
-                                {language === 'AR' ? 'أدلة وأفكار مفيدة' : 'Helpful guides & insights'}
+                                Helpful guides & insights
                               </div>
                             </div>
                             <span className="text-purple-600 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
@@ -523,63 +520,6 @@ const Navbar: React.FC = () => {
                 </motion.span>
               </motion.button>
             
-              {/* Language Switcher */}
-              <motion.div 
-                className="flex items-center gap-1.5 pl-3 ml-3 border-l border-gray-300"
-              >
-                <motion.button
-                  onClick={() => setLanguage('EN')}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  className={`relative px-2 py-1 text-[10px] font-bold rounded-lg transition-all duration-300 overflow-hidden ${
-                    language === 'EN'
-                      ? 'text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  {language === 'EN' && (
-                    <>
-                      <motion.div
-                        className="absolute inset-0 bg-[#111827]"
-                        layoutId="languageActive"
-                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                      />
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/40 to-white/0"
-                        animate={{ x: ['-200%', '200%'] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                      />
-                    </>
-                  )}
-                  <span className="relative z-10">EN</span>
-                </motion.button>
-                <motion.button
-                  onClick={() => setLanguage('AR')}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  className={`relative px-2 py-1 text-[10px] font-bold rounded-lg transition-all duration-300 overflow-hidden ${
-                    language === 'AR'
-                      ? 'text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  {language === 'AR' && (
-                    <>
-                      <motion.div
-                        className="absolute inset-0 bg-[#111827]"
-                        layoutId="languageActive"
-                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                      />
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/40 to-white/0"
-                        animate={{ x: ['-200%', '200%'] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                      />
-                    </>
-                  )}
-                  <span className="relative z-10">AR</span>
-                </motion.button>
-              </motion.div>
 
               {/* CTA Buttons */}
               <motion.button
@@ -605,36 +545,8 @@ const Navbar: React.FC = () => {
               </motion.button>
             </div>
 
-            {/* Mobile Right Section - Language, CTA Button & Menu */}
+            {/* Mobile Right Section - CTA Button & Menu */}
             <div className="flex items-center gap-2 lg:hidden">
-              {/* Language Switcher - Mobile */}
-              <motion.div className="flex items-center gap-1">
-                <motion.button
-                  onClick={() => setLanguage('EN')}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`relative px-2.5 py-1.5 text-[9px] font-bold rounded-lg transition-all duration-300 ${
-                    language === 'EN'
-                      ? 'text-white bg-[#111827]'
-                      : 'bg-gray-100 text-gray-600'
-                  }`}
-                >
-                  EN
-                </motion.button>
-                <motion.button
-                  onClick={() => setLanguage('AR')}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`relative px-2.5 py-1.5 text-[9px] font-bold rounded-lg transition-all duration-300 ${
-                    language === 'AR'
-                      ? 'text-white bg-[#111827]'
-                      : 'bg-gray-100 text-gray-600'
-                  }`}
-                >
-                  AR
-                </motion.button>
-              </motion.div>
-
               {/* Book Consultancy Button - Mobile */}
               <motion.button
                 onClick={() => handleNavClick('/#contact')}
@@ -670,64 +582,6 @@ const Navbar: React.FC = () => {
 
             {/* Desktop Right Section - Hidden on Mobile */}
             <div className="hidden lg:flex items-center gap-1">
-              {/* Desktop Language Switcher & CTA Button */}
-              <motion.div 
-                className="flex items-center gap-1.5 pl-3 ml-3 border-l border-gray-300"
-              >
-                <motion.button
-                  onClick={() => setLanguage('EN')}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  className={`relative px-2 py-1 text-[10px] font-bold rounded-lg transition-all duration-300 overflow-hidden ${
-                    language === 'EN'
-                      ? 'text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  {language === 'EN' && (
-                    <>
-                      <motion.div
-                        className="absolute inset-0 bg-[#111827]"
-                        layoutId="languageActiveDesktop"
-                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                      />
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/40 to-white/0"
-                        animate={{ x: ['-200%', '200%'] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                      />
-                    </>
-                  )}
-                  <span className="relative z-10">EN</span>
-                </motion.button>
-                <motion.button
-                  onClick={() => setLanguage('AR')}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  className={`relative px-2 py-1 text-[10px] font-bold rounded-lg transition-all duration-300 overflow-hidden ${
-                    language === 'AR'
-                      ? 'text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  {language === 'AR' && (
-                    <>
-                      <motion.div
-                        className="absolute inset-0 bg-[#111827]"
-                        layoutId="languageActiveDesktop"
-                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                      />
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/40 to-white/0"
-                        animate={{ x: ['-200%', '200%'] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                      />
-                    </>
-                  )}
-                  <span className="relative z-10">AR</span>
-                </motion.button>
-              </motion.div>
-
               {/* CTA Button - Desktop */}
               <motion.button
                 onClick={() => handleNavClick('/#contact')}
@@ -801,7 +655,7 @@ const Navbar: React.FC = () => {
                 {/* Close Button */}
                 <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200/80 relative z-10">
                   <h2 className="text-lg font-semibold text-gray-900">
-                    {language === 'AR' ? 'القائمة' : 'Menu'}
+                    Menu
                   </h2>
                   <motion.button
                     onClick={() => setIsSideMenuOpen(false)}
@@ -824,7 +678,7 @@ const Navbar: React.FC = () => {
                 {/* Main Navigation (same as navbar) */}
                 <div>
                   <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider mb-3">
-                    {language === 'AR' ? 'التنقل' : 'Navigation'}
+                    Navigation
                   </h3>
                   <div className="space-y-2">
                     <motion.button
@@ -840,7 +694,7 @@ const Navbar: React.FC = () => {
                         (hoveredMenuLink === 'home' || isHomeActive)
                           ? 'text-brand-blue'
                           : 'text-gray-700 hover:text-brand-blue'
-                      } ${language === 'AR' ? 'text-right' : 'text-left'}`}
+                      } text-left`}
                     >
                       {(hoveredMenuLink === 'home' || isHomeActive) && (
                         <motion.div
@@ -877,7 +731,7 @@ const Navbar: React.FC = () => {
                         (hoveredMenuLink === 'about' || isAboutActive)
                           ? 'text-brand-blue'
                           : 'text-gray-700 hover:text-brand-blue'
-                      } ${language === 'AR' ? 'text-right' : 'text-left'}`}
+                      } text-left`}
                     >
                       {(hoveredMenuLink === 'about' || isAboutActive) && (
                         <motion.div
@@ -914,7 +768,7 @@ const Navbar: React.FC = () => {
                         (hoveredMenuLink === 'services' || isServicesActive)
                           ? 'text-brand-blue'
                           : 'text-gray-700 hover:text-brand-blue'
-                      } ${language === 'AR' ? 'text-right' : 'text-left'}`}
+                      } text-left`}
                     >
                       {(hoveredMenuLink === 'services' || isServicesActive) && (
                         <motion.div
@@ -951,7 +805,7 @@ const Navbar: React.FC = () => {
                         (hoveredMenuLink === 'blog' || isBlogActive)
                           ? 'text-brand-blue'
                           : 'text-gray-700 hover:text-brand-blue'
-                      } ${language === 'AR' ? 'text-right' : 'text-left'}`}
+                      } text-left`}
                     >
                       {(hoveredMenuLink === 'blog' || isBlogActive) && (
                         <motion.div
@@ -988,7 +842,7 @@ const Navbar: React.FC = () => {
                         (hoveredMenuLink === 'contact' || isContactActive)
                           ? 'text-brand-blue'
                           : 'text-gray-700 hover:text-brand-blue'
-                      } ${language === 'AR' ? 'text-right' : 'text-left'}`}
+                      } text-left`}
                     >
                       {(hoveredMenuLink === 'contact' || isContactActive) && (
                         <motion.div
@@ -1018,32 +872,32 @@ const Navbar: React.FC = () => {
                  {/* Inspiration Section (visual only, no navigation) */}
                  <div>
                    <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider mb-2">
-                     {language === 'AR' ? 'إلهام' : 'Inspiration'}
+                     Inspiration
                    </h3>
                    <div className="space-y-1.5">
                      <motion.div
                        whileHover={{ scale: 1.02, x: -1 }}
                        className={`block w-full px-4 py-2.5 text-gray-700 bg-gray-50 rounded-full border border-gray-200 shadow-sm ${language === 'AR' ? 'text-right' : 'text-left'}`}
                      >
-                       {language === 'AR' ? 'الأعمال المرجعية' : 'References'}
+                       References
                      </motion.div>
                      <motion.div
                        whileHover={{ scale: 1.02, x: -1 }}
                        className={`block w-full px-4 py-2.5 text-gray-700 bg-gray-50 rounded-full border border-gray-200 shadow-sm ${language === 'AR' ? 'text-right' : 'text-left'}`}
                      >
-                       {language === 'AR' ? 'مجلة عقسة تك' : 'Aqsatech Magazine'}
+                       Aqsatech Magazine
                      </motion.div>
                      <motion.div
                        whileHover={{ scale: 1.02, x: -1 }}
                        className={`block w-full px-4 py-2.5 text-gray-700 bg-gray-50 rounded-full border border-gray-200 shadow-sm ${language === 'AR' ? 'text-right' : 'text-left'}`}
                      >
-                       {language === 'AR' ? 'اكتشف الخدمات' : 'Discover'}
+                       Discover
                      </motion.div>
                      <motion.div
                        whileHover={{ scale: 1.02, x: -1 }}
                        className={`block w-full px-4 py-2.5 text-gray-700 bg-gray-50 rounded-full border border-gray-200 shadow-sm ${language === 'AR' ? 'text-right' : 'text-left'}`}
                      >
-                       {language === 'AR' ? 'النشرة البريدية' : 'Newsletter'}
+                       Newsletter
                      </motion.div>
                    </div>
                  </div>
@@ -1051,7 +905,7 @@ const Navbar: React.FC = () => {
                 {/* Company Section */}
                 <div>
                   <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider mb-3">
-                    {language === 'AR' ? 'الشركة' : 'Company'}
+                    Company
                   </h3>
                   <div className="space-y-2">
                     <motion.button
@@ -1067,7 +921,7 @@ const Navbar: React.FC = () => {
                         hoveredMenuLink === 'company-about'
                           ? 'text-brand-blue'
                           : 'text-gray-700 hover:text-brand-blue'
-                      } ${language === 'AR' ? 'text-right' : 'text-left'}`}
+                      } text-left`}
                     >
                       {hoveredMenuLink === 'company-about' && (
                         <motion.div
@@ -1101,7 +955,7 @@ const Navbar: React.FC = () => {
                         hoveredMenuLink === 'company-career'
                           ? 'text-brand-blue'
                           : 'text-gray-700 hover:text-brand-blue'
-                      } ${language === 'AR' ? 'text-right' : 'text-left'}`}
+                      } text-left`}
                     >
                       {hoveredMenuLink === 'company-career' && (
                         <motion.div
@@ -1119,7 +973,7 @@ const Navbar: React.FC = () => {
                         animate={{ scale: hoveredMenuLink === 'company-career' ? 1.05 : 1 }}
                         transition={{ type: 'spring', stiffness: 320, damping: 18, mass: 0.8 }}
                       >
-                        {language === 'AR' ? 'الوظائف' : 'Career'}
+                        Career
                       </motion.span>
                     </motion.button>
                     <motion.button
@@ -1135,7 +989,7 @@ const Navbar: React.FC = () => {
                         hoveredMenuLink === 'company-news'
                           ? 'text-brand-blue'
                           : 'text-gray-700 hover:text-brand-blue'
-                      } ${language === 'AR' ? 'text-right' : 'text-left'}`}
+                      } text-left`}
                     >
                       {hoveredMenuLink === 'company-news' && (
                         <motion.div
@@ -1153,7 +1007,7 @@ const Navbar: React.FC = () => {
                         animate={{ scale: hoveredMenuLink === 'company-news' ? 1.05 : 1 }}
                         transition={{ type: 'spring', stiffness: 320, damping: 18, mass: 0.8 }}
                       >
-                        {language === 'AR' ? 'الأخبار' : 'News'}
+                        News
                       </motion.span>
                     </motion.button>
                     <motion.button
@@ -1169,7 +1023,7 @@ const Navbar: React.FC = () => {
                         hoveredMenuLink === 'company-sustainability'
                           ? 'text-brand-blue'
                           : 'text-gray-700 hover:text-brand-blue'
-                      } ${language === 'AR' ? 'text-right' : 'text-left'}`}
+                      } text-left`}
                     >
                       {hoveredMenuLink === 'company-sustainability' && (
                         <motion.div
@@ -1187,7 +1041,7 @@ const Navbar: React.FC = () => {
                         animate={{ scale: hoveredMenuLink === 'company-sustainability' ? 1.05 : 1 }}
                         transition={{ type: 'spring', stiffness: 320, damping: 18, mass: 0.8 }}
                       >
-                        {language === 'AR' ? 'الاستدامة' : 'Sustainability'}
+                        Sustainability
                       </motion.span>
                     </motion.button>
                   </div>
@@ -1196,7 +1050,7 @@ const Navbar: React.FC = () => {
                 {/* About Aqsatech Section */}
                 <div>
                   <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider mb-3">
-                    {language === 'AR' ? 'عن عقسة تك' : 'About Aqsatech'}
+                    About Aqsatech
                   </h3>
                   <div className="space-y-2">
                     <motion.button
@@ -1212,7 +1066,7 @@ const Navbar: React.FC = () => {
                         hoveredMenuLink === 'about-office'
                           ? 'text-brand-blue'
                           : 'text-gray-700 hover:text-brand-blue'
-                      } ${language === 'AR' ? 'text-right' : 'text-left'}`}
+                      } text-left`}
                     >
                       {hoveredMenuLink === 'about-office' && (
                         <motion.div
@@ -1230,7 +1084,7 @@ const Navbar: React.FC = () => {
                         animate={{ scale: hoveredMenuLink === 'about-office' ? 1.05 : 1 }}
                         transition={{ type: 'spring', stiffness: 320, damping: 18, mass: 0.8 }}
                       >
-                        {language === 'AR' ? 'المكتب' : 'Office'}
+                        Office
                       </motion.span>
                     </motion.button>
                   </div>
