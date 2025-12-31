@@ -1,0 +1,15 @@
+# Security Contact Information
+# https://securitytxt.org/
+
+Contact: mailto:admin@aqsatech.ae
+Contact: tel:+971525010132
+Expires: 2026-12-31T23:59:59.000Z
+Preferred-Languages: en, ar
+Canonical: https://aqsatech.ae/.well-known/security.txt
+
+# Company Information
+Policy: https://aqsatech.ae/privacy-policy
+Hiring: https://aqsatech.ae/careers
+
+# If you discover a security vulnerability, please report it to us
+# We appreciate responsible disclosure and will respond promptly

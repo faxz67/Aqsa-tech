@@ -1,0 +1,25 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Developer: Aqsa Tech Development Team
+    Contact: admin@aqsatech.ae
+    Twitter: @AqsaTechUAE
+    Location: Dubai, United Arab Emirates
+
+# THANKS
+
+    To our 10,000+ satisfied customers across UAE
+
+# TECHNOLOGY COLOPHON
+
+    Languages: TypeScript, React, Tailwind CSS
+    Tools: Vite, ESLint, PostCSS
+    Fonts: Roboto
+    
+    Standards: HTML5, CSS3, ES2020+
+    Components: React 19, React Router
+    Build: Vite 7, Brotli Compression
+    Performance: Service Worker, Code Splitting, Lazy Loading
+    SEO: Schema.org, Open Graph, Twitter Cards

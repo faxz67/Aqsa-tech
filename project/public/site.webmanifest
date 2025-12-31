@@ -1,0 +1,46 @@
+{
+  "name": "Aqsa Tech UAE - Home Maintenance, AC Service & Renovation",
+  "short_name": "Aqsa Tech",
+  "description": "UAE's #1 home maintenance, AC service, renovation & handyman services in Dubai, Abu Dhabi, Sharjah. Expert technical solutions. Same-day service. 10,000+ satisfied customers.",
+  "categories": ["business", "home", "maintenance", "renovation", "utilities"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/Logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/Logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ],
+  "theme_color": "#45C0B0",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "any",
+  "start_url": "/?utm_source=pwa",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "iarc_rating_id": "",
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "AC Services",
+      "short_name": "AC",
+      "description": "AC Installation, Repair & Maintenance",
+      "url": "/services/air-conditioning",
+      "icons": [{ "src": "/Logo.jpg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Book Service",
+      "short_name": "Book",
+      "description": "Get Free Quote Now",
+      "url": "/#contact",
+      "icons": [{ "src": "/Logo.jpg", "sizes": "192x192" }]
+    }
+  ]
+}
+
