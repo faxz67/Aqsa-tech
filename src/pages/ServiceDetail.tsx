@@ -138,7 +138,7 @@ export default function ServiceDetail() {
       />
       <div className="pt-20 sm:pt-24 pb-12 sm:pb-16">
       {/* Hero Section - Card Layout */}
-      <div className="px-4 sm:px-6 lg:px-8 xl:px-10 max-w-6xl mx-auto mb-8 sm:mb-12">
+      <div className="px-3 sm:px-4 md:px-6 lg:px-8 xl:px-10 max-w-6xl mx-auto mb-6 sm:mb-8 lg:mb-12">
         {/* Navigation Buttons */}
         <div className={`mb-4 sm:mb-6 flex gap-2 sm:gap-3 ${isRTL ? 'justify-end' : 'justify-start'}`}>
           <ProButton
@@ -167,18 +167,16 @@ export default function ServiceDetail() {
           animate="visible"
           variants={fadeIn}
           transition={{ duration: 0.6 }}
-          className="bg-white rounded-2xl sm:rounded-3xl shadow-xl border border-gray-200 overflow-hidden"
+          className="bg-white rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-xl border border-gray-200 overflow-hidden"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-2">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
             {/* Left - Photo */}
-            <div className={`relative h-64 sm:h-80 lg:h-auto lg:min-h-[400px] ${isRTL ? 'lg:order-2' : ''}`}>
+            <div className={`relative h-64 sm:h-80 md:h-96 lg:h-auto lg:min-h-[450px] ${isRTL ? 'lg:order-2' : ''}`}>
               <img
                 src={service.image}
                 alt={service.title}
                 loading="eager"
                 decoding="async"
-
-
                 className="w-full h-full object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 style={{ contentVisibility: 'auto' }}
@@ -188,13 +186,13 @@ export default function ServiceDetail() {
             </div>
 
             {/* Right - Content */}
-            <div className={`p-5 sm:p-6 lg:p-8 xl:p-10 lg:p-12 flex flex-col justify-center ${isRTL ? 'lg:order-1' : ''}`}>
+            <div className={`p-4 sm:p-6 lg:p-8 xl:p-10 flex flex-col justify-center ${isRTL ? 'lg:order-1' : ''}`}>
               <motion.h1
                 initial="hidden"
                 animate="visible"
                 variants={fadeIn}
                 transition={{ duration: 0.6 }}
-                className={`text-xl sm:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight ${isRTL ? 'text-right' : 'text-left'}`}
+                className={`text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 lg:mb-5 leading-tight ${isRTL ? 'text-right' : 'text-left'}`}
               >
                 {service.title}
               </motion.h1>
@@ -203,7 +201,7 @@ export default function ServiceDetail() {
                 animate="visible"
                 variants={fadeIn}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className={`text-gray-700 text-sm sm:text-base lg:text-lg font-medium mb-4 sm:mb-5 lg:mb-6 leading-relaxed ${isRTL ? 'text-right' : 'text-left'}`}
+                className={`text-gray-700 text-sm sm:text-base lg:text-lg xl:text-xl font-medium mb-4 sm:mb-5 lg:mb-6 leading-relaxed ${isRTL ? 'text-right' : 'text-left'}`}
               >
                 {service.description}
               </motion.p>
@@ -212,12 +210,12 @@ export default function ServiceDetail() {
                 animate="visible"
                 variants={fadeIn}
                 transition={{ duration: 0.7, delay: 0.2 }}
-                className={`flex flex-wrap gap-2 sm:gap-3 ${isRTL ? 'justify-end' : 'justify-start'}`}
+                className={`flex flex-wrap gap-2 sm:gap-2.5 lg:gap-3 ${isRTL ? 'justify-end' : 'justify-start'}`}
               >
                 {service.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-gray-900 text-white border-2 border-gray-900 shadow-lg"
+                    className="px-3 sm:px-3.5 lg:px-4 py-1.5 sm:py-2 lg:py-2.5 rounded-full text-xs sm:text-sm lg:text-base font-semibold bg-gray-900 text-white border-2 border-gray-900 shadow-lg whitespace-nowrap"
                   >
                     {tag}
                   </span>
@@ -277,7 +275,6 @@ export default function ServiceDetail() {
                     src={g}
                     loading="lazy"
                     decoding="async"
-
                     alt={service.title + ' work sample'}
                       className="w-full h-full object-cover object-center"
                       style={{ minWidth: '100%', minHeight: '100%' }}

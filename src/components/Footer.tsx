@@ -94,12 +94,12 @@ const Footer: React.FC = () => {
         {/* Top Section */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-6 lg:gap-8 mb-6 sm:mb-8 lg:mb-10 w-full items-start">
           {/* Brand and Contact Info */}
-          <div className="sm:col-span-2 lg:col-span-2 flex flex-col w-full">
+          <div className="sm:col-span-2 lg:col-span-2 flex flex-col items-center w-full">
             {/* Branded Logo */}
             <a
               href="/"
               aria-label="Aqsa Tech home"
-              className={`group flex flex-col items-center sm:items-start gap-1 sm:gap-1.5 mb-4 sm:mb-5 ${isRTL ? 'sm:items-end' : ''}`}
+              className="group flex flex-col items-center gap-1.5 mb-4 sm:mb-5"
             >
               <div className="relative flex-shrink-0">
                 <img
@@ -113,13 +113,13 @@ const Footer: React.FC = () => {
                   className="h-16 sm:h-20 lg:h-24 w-auto object-contain transition-all duration-300 group-hover:opacity-90"
                 />
               </div>
-              <div className={`flex flex-col -mt-1 ${isRTL ? 'items-center sm:items-end' : 'items-center sm:items-start'}`}>
-                <span className="text-base sm:text-lg lg:text-xl font-bold tracking-tight leading-tight text-gray-900">Aqsa Technical Services</span>
+              <div className="flex flex-col items-center">
+                <span className="text-base sm:text-lg lg:text-xl font-bold tracking-tight leading-tight text-gray-900 text-center">Aqsa Technical Services</span>
               </div>
             </a>
 
             {/* Contact Info */}
-            <div className={`space-y-1.5 sm:space-y-2 text-gray-700 text-xs sm:text-sm ${isRTL ? 'text-center sm:text-right' : 'text-center sm:text-left'}`}>
+            <div className="space-y-1.5 sm:space-y-2 text-gray-700 text-xs sm:text-sm text-center">
               <p className="font-semibold text-gray-900">United Arab Emirates</p>
               <p>
                 <a href="tel:+971525010132" className="hover:text-brand-teal transition-colors text-gray-900 font-medium">
