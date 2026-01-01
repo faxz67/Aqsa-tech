@@ -151,7 +151,7 @@ export default function BlogDetail() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
               className="text-center sm:text-left"
             >
               <span className="inline-block bg-brand-teal text-white px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium mb-3 sm:mb-4">
@@ -284,7 +284,7 @@ export default function BlogDetail() {
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                transition={{ duration: 0.2, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
                 className="bg-gray-900 rounded-2xl p-8 shadow-2xl border-2 border-gray-800"
               >
                 <h3 className={`text-2xl font-bold mb-4 text-white ${isRTL ? 'text-right' : 'text-left'}`}>
@@ -325,7 +325,7 @@ export default function BlogDetail() {
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
+                  transition={{ duration: 0.2, delay: 0.07, ease: [0.25, 0.1, 0.25, 1] }}
                   className="bg-white rounded-2xl shadow-md p-4 sm:p-6"
                 >
                   <h3 className={`text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4 text-center sm:text-left ${isRTL ? 'sm:text-right' : ''}`}>{t('blog.relatedArticles') || 'Related Articles'}</h3>
@@ -377,7 +377,7 @@ export default function BlogDetail() {
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
+                transition={{ duration: 0.2, delay: 0.09, ease: [0.25, 0.1, 0.25, 1] }}
                 className="bg-gray-900 rounded-2xl shadow-2xl border-2 border-gray-800 p-8"
               >
                 <div className={`flex items-center gap-4 mb-4 ${isRTL ? 'flex-row-reverse' : ''}`}>

@@ -115,7 +115,8 @@ const CustomerTestimonials: React.FC = () => {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.2,
+        ease: [0.25, 0.1, 0.25, 1],
       },
     },
   };

@@ -252,7 +252,7 @@ const DiscoverPopularServices: React.FC = () => {
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
             className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-white shadow-sm border border-gray-200 mb-3"
           >
             <span className="w-2 h-2 rounded-full bg-brand-blue" />
@@ -264,7 +264,7 @@ const DiscoverPopularServices: React.FC = () => {
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.6, delay: 0.05 }}
+            transition={{ duration: 0.2, delay: 0.03, ease: [0.25, 0.1, 0.25, 1] }}
             className={`text-xl sm:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-gray-900 mb-2 sm:mb-3 ${isRTL ? 'sm:text-right' : 'sm:text-left'}`}
           >
             {t('discoverServices.subtitle')}
@@ -273,7 +273,7 @@ const DiscoverPopularServices: React.FC = () => {
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={{ duration: 0.2, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
             className={`text-gray-600 text-xs sm:text-sm lg:text-base xl:text-lg max-w-3xl ${isRTL ? 'sm:mr-auto sm:ml-0' : 'mx-auto'} ${isRTL ? 'sm:text-right' : 'text-center sm:text-left'}`}
           >
             {t('discoverServices.subtitle')}

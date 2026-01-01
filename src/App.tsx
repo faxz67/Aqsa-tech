@@ -79,7 +79,7 @@ function HomePage() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+        transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <Suspense fallback={<SmoothLoader />}>
           <SubheroSection />
@@ -89,7 +89,7 @@ function HomePage() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+        transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <Suspense fallback={<SmoothLoader />}>
           <About />
@@ -99,7 +99,7 @@ function HomePage() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+        transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <Suspense fallback={<SmoothLoader />}>
           <DiscoverPopularServices />
@@ -110,7 +110,7 @@ function HomePage() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <Suspense fallback={<SmoothLoader />}>
             <ExploreOurServices />
@@ -122,7 +122,7 @@ function HomePage() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <Suspense fallback={<SmoothLoader />}>
             <StepByStepGuide />
@@ -133,7 +133,7 @@ function HomePage() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+        transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <Suspense fallback={<SmoothLoader />}>
           <Services />
@@ -143,7 +143,7 @@ function HomePage() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+        transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <Suspense fallback={<SmoothLoader />}>
           <Projects />
@@ -157,7 +157,7 @@ function HomePage() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <Suspense fallback={<SmoothLoader />}>
             <Contact />
@@ -168,7 +168,7 @@ function HomePage() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+        transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <Suspense fallback={<SmoothLoader />}>
           <GetInTouch />
@@ -178,7 +178,7 @@ function HomePage() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+        transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <Suspense fallback={<SmoothLoader />}>
           <Footer />

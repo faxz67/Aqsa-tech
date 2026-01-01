@@ -10,7 +10,7 @@ import StructuredData from '../components/StructuredData';
 import { generateWhatsAppUrl, WHATSAPP_PHONE } from '../utils/whatsapp';
 
 const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 12 },
   visible: { opacity: 1, y: 0 },
 };
 
@@ -140,7 +140,7 @@ export default function ServiceDetail() {
       {/* Hero Section - Card Layout */}
       <div className="px-3 sm:px-4 md:px-6 lg:px-8 xl:px-10 max-w-6xl mx-auto mb-6 sm:mb-8 lg:mb-12">
         {/* Navigation Buttons */}
-        <div className={`mb-4 sm:mb-6 flex gap-2 sm:gap-3 ${isRTL ? 'justify-end' : 'justify-start'}`}>
+        <div className={`mb-3 sm:mb-4 md:mb-6 flex gap-2 sm:gap-3 flex-wrap ${isRTL ? 'justify-end' : 'justify-start'}`}>
           <ProButton
             onClick={() => navigate(-1)}
             size="sm"
@@ -166,32 +166,37 @@ export default function ServiceDetail() {
           initial="hidden"
           animate="visible"
           variants={fadeIn}
-          transition={{ duration: 0.6 }}
-          className="bg-white rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-xl border border-gray-200 overflow-hidden"
+          transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+          className="bg-white rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-xl border border-gray-200 overflow-hidden w-full"
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
             {/* Left - Photo */}
-            <div className={`relative h-64 sm:h-80 md:h-96 lg:h-auto lg:min-h-[450px] ${isRTL ? 'lg:order-2' : ''}`}>
+            <div className={`relative w-full aspect-[4/3] sm:aspect-[3/2] md:aspect-[16/10] lg:aspect-auto lg:h-auto lg:min-h-[450px] overflow-hidden ${isRTL ? 'lg:order-2' : ''}`}>
               <img
                 src={service.image}
                 alt={service.title}
                 loading="eager"
                 decoding="async"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-center"
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                style={{ contentVisibility: 'auto' }}
+                style={{ 
+                  contentVisibility: 'auto',
+                  transform: 'translateZ(0)',
+                  backfaceVisibility: 'hidden',
+                  WebkitBackfaceVisibility: 'hidden'
+                }}
               />
               {/* Gradient overlay for better text readability on image */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-transparent lg:hidden" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-transparent lg:hidden pointer-events-none" />
             </div>
 
             {/* Right - Content */}
-            <div className={`p-4 sm:p-6 lg:p-8 xl:p-10 flex flex-col justify-center ${isRTL ? 'lg:order-1' : ''}`}>
+            <div className={`p-4 sm:p-5 md:p-6 lg:p-8 xl:p-10 flex flex-col justify-center min-h-0 ${isRTL ? 'lg:order-1' : ''}`}>
               <motion.h1
                 initial="hidden"
                 animate="visible"
                 variants={fadeIn}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
                 className={`text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 lg:mb-5 leading-tight ${isRTL ? 'text-right' : 'text-left'}`}
               >
                 {service.title}
@@ -200,7 +205,7 @@ export default function ServiceDetail() {
                 initial="hidden"
                 animate="visible"
                 variants={fadeIn}
-                transition={{ duration: 0.7, delay: 0.1 }}
+                transition={{ duration: 0.2, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
                 className={`text-gray-700 text-sm sm:text-base lg:text-lg xl:text-xl font-medium mb-4 sm:mb-5 lg:mb-6 leading-relaxed ${isRTL ? 'text-right' : 'text-left'}`}
               >
                 {service.description}
@@ -209,7 +214,7 @@ export default function ServiceDetail() {
                 initial="hidden"
                 animate="visible"
                 variants={fadeIn}
-                transition={{ duration: 0.7, delay: 0.2 }}
+                transition={{ duration: 0.2, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
                 className={`flex flex-wrap gap-2 sm:gap-2.5 lg:gap-3 ${isRTL ? 'justify-end' : 'justify-start'}`}
               >
                 {service.tags.map((tag) => (
@@ -234,7 +239,7 @@ export default function ServiceDetail() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={fadeIn}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
           className="md:col-span-2"
         >
           <h2 className={`text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold mb-3 sm:mb-4 text-gray-900 text-center sm:text-left ${isRTL ? 'sm:text-right' : ''}`}>{t('services.overview')}</h2>
@@ -292,7 +297,7 @@ export default function ServiceDetail() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={fadeIn}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          transition={{ duration: 0.2, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
           className="md:col-span-1"
         >
           <div className="sticky top-20 sm:top-24 lg:top-28 space-y-4 sm:space-y-6">

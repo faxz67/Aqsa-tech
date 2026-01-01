@@ -81,14 +81,14 @@ const HeroSection: React.FC = () => {
             <motion.div 
               initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: prefersReducedMotion ? 0 : 0.4, delay: 0.1 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.2, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
               className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mb-4 sm:mb-8 mt-0 px-2"
             >
               <motion.span 
                 className="text-white text-xs sm:text-sm font-semibold"
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: prefersReducedMotion ? 0 : 0.4, delay: 0.1 }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.2, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
               >
                 {t('hero.excellent')}
               </motion.span>
@@ -103,9 +103,9 @@ const HeroSection: React.FC = () => {
                     initial={prefersReducedMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ 
-                      duration: prefersReducedMotion ? 0 : 0.3, 
-                      delay: prefersReducedMotion ? 0 : 0.2 + (star * 0.05),
-                      ease: "easeOut"
+                      duration: prefersReducedMotion ? 0 : 0.15, 
+                      delay: prefersReducedMotion ? 0 : 0.1 + (star * 0.03),
+                      ease: [0.25, 0.1, 0.25, 1]
                     }}
                   >
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -116,7 +116,7 @@ const HeroSection: React.FC = () => {
                 className="text-white text-xs sm:text-sm"
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: prefersReducedMotion ? 0 : 0.4, delay: 0.4 }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.2, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
               >
                 {t('hero.trustpilot')}
               </motion.span>
@@ -129,7 +129,7 @@ const HeroSection: React.FC = () => {
             <motion.div
               initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: prefersReducedMotion ? 0 : 0.4, delay: 0.4 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.2, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
               className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 max-w-2xl mx-auto w-full px-2 sm:px-0 mt-4 sm:mt-6"
             >
               {/* Primary CTA - Request Quote */}
@@ -171,7 +171,7 @@ const HeroSection: React.FC = () => {
       <motion.section 
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
         viewport={{ once: true }}
         className="bg-soft-gray-light px-4 sm:px-6 lg:px-8 py-8 sm:py-14 lg:py-20"
       >
@@ -240,8 +240,8 @@ const HeroTypingHeading: React.FC<{ prefersReducedMotion?: boolean }> = React.me
         initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ 
-          duration: prefersReducedMotion ? 0 : 0.5, 
-          delay: prefersReducedMotion ? 0 : 0.4,
+          duration: prefersReducedMotion ? 0 : 0.2, 
+          delay: prefersReducedMotion ? 0 : 0.15,
           ease: "easeOut"
         }}
       >

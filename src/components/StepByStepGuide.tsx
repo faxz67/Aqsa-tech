@@ -43,7 +43,8 @@ const StepByStepGuide: React.FC = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3,
+        staggerChildren: 0.05,
+        delayChildren: 0.03,
       },
     },
   };
@@ -54,7 +55,8 @@ const StepByStepGuide: React.FC = () => {
       opacity: 1,
       x: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.2,
+        ease: [0.25, 0.1, 0.25, 1],
       },
     },
   };
@@ -68,7 +70,7 @@ const StepByStepGuide: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
             className={`lg:sticky lg:top-8 w-full ${isRTL ? 'text-right' : 'text-left'}`}
           >
             <h2 className={`text-2xl sm:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-semibold text-gray-900 leading-tight mb-3 sm:mb-4 lg:mb-5 ${isRTL ? 'text-right' : 'text-left'}`}>
@@ -117,10 +119,11 @@ const StepByStepGuide: React.FC = () => {
                         whileInView={{ scale: 1 }}
                         viewport={{ once: true }}
                         transition={{
-                          delay: index * 0.2,
+                          delay: index * 0.05,
                           type: 'spring',
-                          stiffness: 200,
-                          damping: 15,
+                          stiffness: 500,
+                          damping: 30,
+                          mass: 0.5,
                         }}
                         className={`w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-20 xl:h-20 rounded-full flex items-center justify-center text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold transition-all duration-300 flex-shrink-0 ${
                           isActive ? 'bg-[#111827] text-white shadow-lg ring-2 ring-brand-blue ring-offset-2' : 'bg-gray-300 text-gray-700 border-2 border-gray-400'

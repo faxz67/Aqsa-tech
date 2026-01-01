@@ -92,18 +92,18 @@ export default function ProButton(props: ProButtonProps) {
 
   const motionProps = {
     whileHover: { 
-      scale: 1.03,
+      scale: 1.02,
       y: -2,
-      transition: { type: "spring", stiffness: 400, damping: 17 }
+      transition: { type: "spring", stiffness: 500, damping: 30, mass: 0.5 }
     },
     whileTap: { 
-      scale: 0.97,
+      scale: 0.98,
       y: 0,
-      transition: { type: "spring", stiffness: 400, damping: 17 }
+      transition: { type: "spring", stiffness: 600, damping: 35, mass: 0.4 }
     },
-    initial: { opacity: 0, y: 4 },
+    initial: { opacity: 0, y: 8 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.3, ease: "easeOut" }
+    transition: { duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }
   };
 
   if (as === 'a') {

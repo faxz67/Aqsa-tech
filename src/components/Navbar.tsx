@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { X, Zap, ChevronDown } from 'lucide-react';
+import { Zap, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -140,8 +140,8 @@ const Navbar: React.FC = () => {
     <motion.header
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-4 md:px-6 pt-2 pb-2"
+      transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+      className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-4 md:px-6 pt-2 sm:pt-2.5 pb-2 sm:pb-2.5"
     >
       <div className={`max-w-7xl mx-auto transition-all duration-500 rounded-xl sm:rounded-2xl relative z-[100] isolate ${
         isScrolled 
@@ -152,7 +152,7 @@ const Navbar: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/20 to-white/10 pointer-events-none" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,transparent_0%,rgba(255,255,255,0.1)_50%,transparent_100%)] pointer-events-none" />
         <nav className="px-3 sm:px-4 md:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 navbar-nav">
-          <div className="flex items-center justify-between w-full gap-3 sm:gap-4 lg:gap-6">
+          <div className="flex items-center justify-between w-full gap-2 sm:gap-3 md:gap-4 lg:gap-6">
             {/* Logo - Left Side */}
             <Link 
               to="/" 
@@ -163,11 +163,11 @@ const Navbar: React.FC = () => {
                   setActiveSection('home');
                 }
               }}
-              className="flex items-center group relative no-underline flex-shrink-0 ml-3 sm:ml-4 md:ml-5 lg:ml-6 xl:ml-7"
+              className="flex items-center group relative no-underline flex-shrink-0 min-w-0"
             >
               <motion.div 
                 whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3, type: "spring" }}
+                transition={{ type: "spring", stiffness: 500, damping: 30, mass: 0.5 }}
                 className="relative flex items-center justify-center"
               >
                 <img
@@ -175,7 +175,7 @@ const Navbar: React.FC = () => {
                   alt="Aqsa Tech Logo"
                   loading="eager"
                   fetchPriority="high"
-                  className="h-12 sm:h-16 md:h-20 lg:h-24 w-auto object-contain transition-all duration-300 group-hover:opacity-90"
+                  className="h-10 sm:h-12 md:h-16 lg:h-20 xl:h-24 w-auto object-contain transition-all duration-300 group-hover:opacity-90 max-h-12 sm:max-h-14 md:max-h-16 lg:max-h-20 xl:max-h-24"
                   onError={(e) => {
                     console.error('Logo failed to load');
                     e.currentTarget.style.display = 'none';
@@ -207,7 +207,7 @@ const Navbar: React.FC = () => {
                       borderColor: 'rgba(255,255,255,0.3)',
                     }}
                     layoutId="navHover"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.6 }}
                   />
                 )}
                   <motion.span
@@ -217,7 +217,7 @@ const Navbar: React.FC = () => {
                       fontWeight: hoveredLink === 'home' || isHomeActive ? 600 : 500,
                       letterSpacing: hoveredLink === 'home' || isHomeActive ? '0.02em' : '0em'
                     }}
-                    transition={{ type: 'spring', stiffness: 360, damping: 20, mass: 0.75 }}
+                    transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.5 }}
                   >
                     {navHome}
                   </motion.span>
@@ -244,7 +244,7 @@ const Navbar: React.FC = () => {
                       borderColor: 'rgba(255,255,255,0.3)',
                     }}
                     layoutId="navHover"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.6 }}
                   />
                 )}
                 <motion.span
@@ -288,7 +288,7 @@ const Navbar: React.FC = () => {
                         borderColor: 'rgba(255,255,255,0.3)',
                       }}
                       layoutId="navHover"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.6 }}
                     />
                   )}
                   <motion.span
@@ -298,7 +298,7 @@ const Navbar: React.FC = () => {
                       fontWeight: isServicesActive || isServicesOpen || hoveredLink === 'services' ? 600 : 600,
                       letterSpacing: isServicesActive || isServicesOpen || hoveredLink === 'services' ? '0.02em' : '0em'
                     }}
-                    transition={{ type: 'spring', stiffness: 360, damping: 20, mass: 0.75 }}
+                    transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.5 }}
                   >
                     {navServices}
                     <ChevronDown
@@ -313,7 +313,7 @@ const Navbar: React.FC = () => {
                       initial={{ opacity: 0, y: 15, scale: 0.96 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 15, scale: 0.96 }}
-                      transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.6 }}
                       className="absolute left-0 top-full mt-2 w-[340px] rounded-3xl z-[9999] bg-white shadow-lg isolate"
                     >
                       <div className="relative bg-white/[0.98] backdrop-blur-[40px] backdrop-saturate-[200%] rounded-3xl border border-white/40 shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]">
@@ -351,7 +351,7 @@ const Navbar: React.FC = () => {
                                 initial={{ height: 0, opacity: 0 }}
                                 animate={{ height: 'auto', opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.25, ease: 'easeInOut' }}
+                                transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
                                 className="overflow-hidden mt-2"
                               >
                                 <div className="grid grid-cols-1 gap-2 px-1">
@@ -361,7 +361,7 @@ const Navbar: React.FC = () => {
                                       onClick={() => handleNavClick(item.path)}
                                       initial={{ opacity: 0, x: -10 }}
                                       animate={{ opacity: 1, x: 0 }}
-                                      transition={{ delay: index * 0.05 }}
+                                      transition={{ delay: index * 0.03 }}
                                       whileHover={{ scale: 1.02, x: 4 }}
                                       whileTap={{ scale: 0.98 }}
                                       className="relative w-full text-left px-4 py-2.5 text-sm text-gray-700 rounded-xl transition-all duration-200 overflow-hidden group"
@@ -474,7 +474,7 @@ const Navbar: React.FC = () => {
                       borderColor: 'rgba(255,255,255,0.3)',
                     }}
                     layoutId="navHover"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.6 }}
                   />
                 )}
                 <motion.span
@@ -511,7 +511,7 @@ const Navbar: React.FC = () => {
                       borderColor: 'rgba(255,255,255,0.3)',
                     }}
                     layoutId="navHover"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.6 }}
                   />
                 )}
                 <motion.span
@@ -529,33 +529,34 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Mobile Right Section - CTA Button & Menu */}
-            <div className="flex items-center gap-2 sm:gap-3 lg:hidden">
+            <div className="flex items-center gap-2 sm:gap-2.5 lg:hidden flex-shrink-0">
               {/* Book Consultancy Button - Mobile */}
               <motion.button
                 onClick={() => handleNavClick('/#contact')}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="relative px-3 sm:px-4 py-1.5 sm:py-2 bg-white text-[#174A67] text-[10px] sm:text-xs font-semibold rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] transition-all duration-300 whitespace-nowrap flex items-center gap-1 sm:gap-1.5 overflow-hidden flex-shrink-0"
+                className="relative px-3 sm:px-3.5 py-1.5 sm:py-2 bg-white text-[#174A67] text-[10px] sm:text-xs font-semibold rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] transition-all duration-300 whitespace-nowrap flex items-center gap-1 sm:gap-1.5 overflow-hidden flex-shrink-0"
               >
                 {/* Gradient border */}
                 <span className="absolute inset-0 rounded-full bg-gradient-to-r from-[#7DD3FC] via-[#45C0B0] to-[#3B82F6] opacity-100 -z-10" />
                 <span className="absolute inset-[2px] rounded-full bg-white -z-[1]" />
                 <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5 relative z-10 flex-shrink-0" />
-                <span className="hidden sm:inline relative z-10">Book Now</span>
-                <span className="sm:hidden relative z-10">Book</span>
+                <span className="hidden xs:inline relative z-10">Book Now</span>
+                <span className="xs:hidden relative z-10">Book</span>
               </motion.button>
 
-              {/* Hamburger Menu Button - Modern Design */}
+              {/* Hamburger Menu Button - Transforms to X when menu is open */}
               <motion.button
                 onClick={() => setIsSideMenuOpen(!isSideMenuOpen)}
                 whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="relative w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center text-gray-900 transition-all duration-300 rounded-2xl overflow-hidden flex-shrink-0 group"
-                aria-label="Toggle menu"
+                whileTap={{ scale: 0.98 }}
+                className="relative w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center text-gray-900 rounded-xl sm:rounded-2xl overflow-hidden flex-shrink-0 group"
+                aria-label={isSideMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={isSideMenuOpen}
               >
                 {/* Animated background */}
                 <motion.div 
-                  className="absolute inset-0 bg-gradient-to-br from-white via-white to-gray-50 border border-gray-200/80 shadow-lg rounded-2xl"
+                  className="absolute inset-0 bg-gradient-to-br from-white via-white to-gray-50 border border-gray-200/80 shadow-lg rounded-xl sm:rounded-2xl"
                   animate={{
                     backgroundColor: isSideMenuOpen 
                       ? 'rgba(17, 24, 39, 0.95)' 
@@ -564,41 +565,61 @@ const Navbar: React.FC = () => {
                       ? 'rgba(17, 24, 39, 0.3)' 
                       : 'rgba(229, 231, 235, 0.8)',
                   }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ 
+                    duration: 0.2,
+                    ease: [0.25, 0.1, 0.25, 1]
+                  }}
                 />
                 <motion.div 
-                  className="absolute inset-0 backdrop-blur-[20px] rounded-2xl"
+                  className="absolute inset-0 backdrop-blur-[20px] rounded-xl sm:rounded-2xl"
                   animate={{ opacity: isSideMenuOpen ? 0.8 : 1 }}
+                  transition={{ duration: 0.2 }}
                 />
                 
                 {/* Custom Hamburger Icon - 3 lines that transform to X */}
                 <div className="relative z-20 w-4 h-4 sm:w-5 sm:h-5 flex flex-col justify-center items-center">
                   <motion.span
-                    className="absolute w-4 sm:w-5 h-0.5 rounded-full"
+                    className="absolute w-4 sm:w-5 h-0.5 rounded-full origin-center"
                     style={{ backgroundColor: isSideMenuOpen ? '#ffffff' : '#111827' }}
                     animate={{
                       rotate: isSideMenuOpen ? 45 : 0,
                       y: isSideMenuOpen ? 0 : -5,
+                      width: isSideMenuOpen ? '1.25rem' : '1rem',
                     }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                    transition={{ 
+                      type: 'spring', 
+                      stiffness: 500, 
+                      damping: 30,
+                      mass: 0.5
+                    }}
                   />
                   <motion.span
-                    className="absolute w-4 sm:w-5 h-0.5 rounded-full"
-                    style={{ backgroundColor: '#111827' }}
+                    className="absolute w-4 sm:w-5 h-0.5 rounded-full origin-center"
+                    style={{ backgroundColor: isSideMenuOpen ? '#ffffff' : '#111827' }}
                     animate={{
                       opacity: isSideMenuOpen ? 0 : 1,
                       scale: isSideMenuOpen ? 0 : 1,
+                      x: isSideMenuOpen ? 10 : 0,
                     }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ 
+                      duration: 0.15,
+                      ease: [0.4, 0, 0.2, 1]
+                    }}
                   />
                   <motion.span
-                    className="absolute w-4 sm:w-5 h-0.5 rounded-full"
+                    className="absolute w-4 sm:w-5 h-0.5 rounded-full origin-center"
                     style={{ backgroundColor: isSideMenuOpen ? '#ffffff' : '#111827' }}
                     animate={{
                       rotate: isSideMenuOpen ? -45 : 0,
                       y: isSideMenuOpen ? 0 : 5,
+                      width: isSideMenuOpen ? '1.25rem' : '1rem',
                     }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                    transition={{ 
+                      type: 'spring', 
+                      stiffness: 500, 
+                      damping: 30,
+                      mass: 0.5
+                    }}
                   />
                 </div>
               </motion.button>
@@ -623,13 +644,14 @@ const Navbar: React.FC = () => {
                 </span>
               </motion.button>
 
-              {/* Desktop Menu Button - Modern Design */}
+              {/* Desktop Menu Button - Transforms to X when menu is open */}
               <motion.button
                 onClick={() => setIsSideMenuOpen(!isSideMenuOpen)}
                 whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="relative w-11 h-11 xl:w-12 xl:h-12 flex items-center justify-center text-gray-900 transition-all duration-300 rounded-2xl overflow-hidden group flex-shrink-0"
-                aria-label="Toggle menu"
+                whileTap={{ scale: 0.98 }}
+                className="relative w-11 h-11 xl:w-12 xl:h-12 flex items-center justify-center text-gray-900 rounded-2xl overflow-hidden group flex-shrink-0"
+                aria-label={isSideMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={isSideMenuOpen}
               >
                 {/* Animated background */}
                 <motion.div 
@@ -642,47 +664,67 @@ const Navbar: React.FC = () => {
                       ? 'rgba(17, 24, 39, 0.3)' 
                       : 'rgba(229, 231, 235, 0.8)',
                   }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ 
+                    duration: 0.2,
+                    ease: [0.25, 0.1, 0.25, 1]
+                  }}
                 />
                 <motion.div 
                   className="absolute inset-0 backdrop-blur-[20px] rounded-2xl"
                   animate={{ opacity: isSideMenuOpen ? 0.8 : 1 }}
+                  transition={{ duration: 0.2 }}
                 />
                 
                 {/* Custom Hamburger Icon - 3 lines that transform to X */}
                 <div className="relative z-20 w-5 h-5 xl:w-6 xl:h-6 flex flex-col justify-center items-center">
                   <motion.span
-                    className="absolute w-5 xl:w-6 h-0.5 rounded-full"
+                    className="absolute w-5 xl:w-6 h-0.5 rounded-full origin-center"
                     style={{ 
                       backgroundColor: isSideMenuOpen ? '#ffffff' : '#111827',
                     }}
                     animate={{
                       rotate: isSideMenuOpen ? 45 : 0,
                       y: isSideMenuOpen ? 0 : -6,
+                      width: isSideMenuOpen ? '1.5rem' : '1.25rem',
                     }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                    transition={{ 
+                      type: 'spring', 
+                      stiffness: 500, 
+                      damping: 30,
+                      mass: 0.5
+                    }}
                   />
                   <motion.span
-                    className="absolute w-5 xl:w-6 h-0.5 rounded-full"
+                    className="absolute w-5 xl:w-6 h-0.5 rounded-full origin-center"
                     style={{ 
-                      backgroundColor: '#111827',
+                      backgroundColor: isSideMenuOpen ? '#ffffff' : '#111827',
                     }}
                     animate={{
                       opacity: isSideMenuOpen ? 0 : 1,
                       scale: isSideMenuOpen ? 0 : 1,
+                      x: isSideMenuOpen ? 12 : 0,
                     }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ 
+                      duration: 0.15,
+                      ease: [0.4, 0, 0.2, 1]
+                    }}
                   />
                   <motion.span
-                    className="absolute w-5 xl:w-6 h-0.5 rounded-full"
+                    className="absolute w-5 xl:w-6 h-0.5 rounded-full origin-center"
                     style={{ 
                       backgroundColor: isSideMenuOpen ? '#ffffff' : '#111827',
                     }}
                     animate={{
                       rotate: isSideMenuOpen ? -45 : 0,
                       y: isSideMenuOpen ? 0 : 6,
+                      width: isSideMenuOpen ? '1.5rem' : '1.25rem',
                     }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                    transition={{ 
+                      type: 'spring', 
+                      stiffness: 500, 
+                      damping: 30,
+                      mass: 0.5
+                    }}
                   />
                 </div>
               </motion.button>
@@ -701,63 +743,48 @@ const Navbar: React.FC = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsSideMenuOpen(false)}
-              className="fixed inset-0 bg-black/80 backdrop-blur-md z-[60]"
+              className="fixed inset-0 z-[60] pointer-events-auto"
               style={{
-                background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 100%)'
+                background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.75) 100%)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+              }}
+              transition={{ 
+                duration: 0.2,
+                ease: [0.25, 0.1, 0.25, 1]
               }}
             />
             
             {/* Side Menu Panel - Enhanced Design */}
             <motion.div
-              initial={{ x: isRTL ? '-100%' : '100%', opacity: 0, scale: 0.96 }}
+              initial={{ x: isRTL ? '-100%' : '100%', opacity: 0, scale: 0.98 }}
               animate={{ x: 0, opacity: 1, scale: 1 }}
-              exit={{ x: isRTL ? '-100%' : '100%', opacity: 0, scale: 0.96 }}
-              transition={{ type: 'spring', damping: 28, stiffness: 260, duration: 0.4 }}
-              className={`fixed ${isRTL ? 'left-0' : 'right-0'} top-0 h-full w-[85vw] sm:w-80 max-w-[340px] z-[70] overflow-y-auto ${isRTL ? 'rounded-r-3xl' : 'rounded-l-3xl'}`}
+              exit={{ x: isRTL ? '-100%' : '100%', opacity: 0, scale: 0.98 }}
+              transition={{ 
+                type: 'spring', 
+                stiffness: 500, 
+                damping: 30, 
+                mass: 0.5
+              }}
+              className={`fixed ${isRTL ? 'left-0' : 'right-0'} top-0 h-full w-[90vw] sm:w-80 max-w-[320px] z-[70] overflow-y-auto ${isRTL ? 'rounded-r-2xl' : 'rounded-l-2xl'} pointer-events-auto`}
+              onClick={(e) => e.stopPropagation()}
             >
-              <div className={`h-full bg-gradient-to-br from-white via-white to-gray-50/50 backdrop-blur-[40px] backdrop-saturate-[180%] shadow-[0_26px_70px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.9)] ${isRTL ? 'border-r' : 'border-l'} border-gray-200/60 ${isRTL ? 'rounded-r-3xl' : 'rounded-l-3xl'} flex flex-col relative overflow-hidden`}>
+              <div className={`h-full bg-gradient-to-br from-white via-white to-gray-50/50 backdrop-blur-[40px] backdrop-saturate-[180%] shadow-[0_26px_70px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.9)] ${isRTL ? 'border-r' : 'border-l'} border-gray-200/60 ${isRTL ? 'rounded-r-2xl' : 'rounded-l-2xl'} flex flex-col relative overflow-hidden`}>
                 {/* Enhanced gradient overlays */}
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/60 via-white/40 to-transparent" />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-transparent" />
                 <div className="pointer-events-none absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white/80 to-transparent" />
                 
-                {/* Header with Book Now Button and Close Button */}
-                <div className="flex flex-col gap-3 px-4 sm:px-6 py-4 sm:py-6 border-b border-gray-200/60 relative z-10 bg-white/30 backdrop-blur-sm">
-                  <div className="flex items-center justify-between w-full">
+                {/* Header - Menu Title Only */}
+                <div className="flex items-center justify-center px-3 sm:px-5 py-4 sm:py-5 border-b border-gray-200/60 relative z-10 bg-white/30 backdrop-blur-sm">
                   <motion.h2 
-                    className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent"
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 }}
+                    className="text-lg sm:text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
                   >
                     Menu
                   </motion.h2>
-                  <motion.button
-                    onClick={() => setIsSideMenuOpen(false)}
-                    whileHover={{ scale: 1.1, rotate: 90 }}
-                    whileTap={{ scale: 0.9 }}
-                      className="relative w-10 h-10 flex items-center justify-center text-gray-900 hover:text-gray-900 transition-colors rounded-xl hover:bg-gray-100/80 group flex-shrink-0"
-                  >
-                    <div className="absolute inset-0 bg-gray-100/50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <X className="w-5 h-5 relative z-10 stroke-2" />
-                    </motion.button>
-                  </div>
-                  {/* Book Now Button */}
-                  <motion.button
-                    onClick={() => {
-                      handleNavClick('/#contact');
-                      setIsSideMenuOpen(false);
-                    }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="relative w-full px-4 py-2.5 bg-white text-[#174A67] text-sm font-semibold rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] transition-all duration-300 overflow-hidden flex items-center justify-center gap-1.5"
-                  >
-                    {/* Gradient border */}
-                    <span className="absolute inset-0 rounded-full bg-gradient-to-r from-[#7DD3FC] via-[#45C0B0] to-[#3B82F6] opacity-100 -z-10" />
-                    <span className="absolute inset-[2px] rounded-full bg-white -z-[1]" />
-                    <Zap className="w-4 h-4 relative z-10" />
-                    <span className="relative z-10">Book Now</span>
-                  </motion.button>
                 </div>
 
                 {/* Menu Content */}
@@ -765,15 +792,15 @@ const Navbar: React.FC = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-                  className="p-4 sm:p-6 space-y-4 sm:space-y-6 flex-1 overflow-y-auto relative z-10"
+                  transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1], delay: 0.05 }}
+                  className="p-3 sm:p-5 space-y-3 sm:space-y-5 flex-1 overflow-y-auto relative z-10"
                 >
                 {/* Main Navigation (same as navbar) */}
                 <div>
-                  <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-3">
+                  <h3 className="text-xs sm:text-sm font-bold text-gray-900 uppercase tracking-wider mb-2 sm:mb-3">
                     Navigation
                   </h3>
-                  <div className="space-y-2">
+                  <div className="space-y-1.5 sm:space-y-2">
                     <motion.button
                       onClick={() => {
                         handleNavClick('/');
@@ -783,7 +810,7 @@ const Navbar: React.FC = () => {
                       onHoverEnd={() => setHoveredMenuLink(null)}
                       whileHover={{ scale: 1.03, y: -1 }}
                       whileTap={{ scale: 0.97 }}
-                      className={`relative block w-full px-4 py-2.5 text-xs lg:text-sm font-medium transition-all duration-300 rounded-full ${
+                      className={`relative block w-full px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-all duration-300 rounded-full ${
                         (hoveredMenuLink === 'home' || isHomeActive)
                           ? 'text-brand-blue'
                           : 'text-gray-900 hover:text-brand-blue'
@@ -793,7 +820,7 @@ const Navbar: React.FC = () => {
                         <motion.div
                           className="absolute inset-0 rounded-full bg-white/80 backdrop-blur-[20px] backdrop-saturate-[180%] border border-gray-200/50 shadow-sm"
                           layoutId="menuHover"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.6 }}
                         />
                       )}
                       <motion.span
@@ -802,7 +829,7 @@ const Navbar: React.FC = () => {
                           scale: (hoveredMenuLink === 'home' || isHomeActive) ? 1.05 : 1,
                           fontWeight: (hoveredMenuLink === 'home' || isHomeActive) ? 600 : 500
                         }}
-                        transition={{ type: 'spring', stiffness: 360, damping: 20, mass: 0.75 }}
+                        transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.5 }}
                       >
                         {navHome}
                       </motion.span>
@@ -816,7 +843,7 @@ const Navbar: React.FC = () => {
                       onHoverEnd={() => setHoveredMenuLink(null)}
                       whileHover={{ scale: 1.03, y: -1 }}
                       whileTap={{ scale: 0.97 }}
-                      className={`relative block w-full px-4 py-2.5 text-xs lg:text-sm font-medium transition-all duration-300 rounded-full ${
+                      className={`relative block w-full px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-all duration-300 rounded-full ${
                         (hoveredMenuLink === 'about' || isAboutActive)
                           ? 'text-brand-blue'
                           : 'text-gray-900 hover:text-brand-blue'
@@ -826,7 +853,7 @@ const Navbar: React.FC = () => {
                         <motion.div
                           className="absolute inset-0 rounded-full bg-white/80 backdrop-blur-[20px] backdrop-saturate-[180%] border border-gray-200/50 shadow-sm"
                           layoutId="menuHover"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.6 }}
                         />
                       )}
                       <motion.span
@@ -835,7 +862,7 @@ const Navbar: React.FC = () => {
                           scale: (hoveredMenuLink === 'about' || isAboutActive) ? 1.05 : 1,
                           fontWeight: (hoveredMenuLink === 'about' || isAboutActive) ? 600 : 500
                         }}
-                        transition={{ type: 'spring', stiffness: 360, damping: 20, mass: 0.75 }}
+                        transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.5 }}
                       >
                         {navAbout}
                       </motion.span>
@@ -849,7 +876,7 @@ const Navbar: React.FC = () => {
                       onHoverEnd={() => setHoveredMenuLink(null)}
                       whileHover={{ scale: 1.03, y: -1 }}
                       whileTap={{ scale: 0.97 }}
-                      className={`relative block w-full px-4 py-2.5 text-xs lg:text-sm font-medium transition-all duration-300 rounded-full ${
+                      className={`relative block w-full px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-all duration-300 rounded-full ${
                         (hoveredMenuLink === 'services' || isServicesActive)
                           ? 'text-brand-blue'
                           : 'text-gray-900 hover:text-brand-blue'
@@ -859,7 +886,7 @@ const Navbar: React.FC = () => {
                         <motion.div
                           className="absolute inset-0 rounded-full bg-white/80 backdrop-blur-[20px] backdrop-saturate-[180%] border border-gray-200/50 shadow-sm"
                           layoutId="menuHover"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.6 }}
                         />
                       )}
                       <motion.span
@@ -868,7 +895,7 @@ const Navbar: React.FC = () => {
                           scale: (hoveredMenuLink === 'services' || isServicesActive) ? 1.05 : 1,
                           fontWeight: (hoveredMenuLink === 'services' || isServicesActive) ? 600 : 500
                         }}
-                        transition={{ type: 'spring', stiffness: 360, damping: 20, mass: 0.75 }}
+                        transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.5 }}
                       >
                         {navServices}
                       </motion.span>
@@ -882,7 +909,7 @@ const Navbar: React.FC = () => {
                       onHoverEnd={() => setHoveredMenuLink(null)}
                       whileHover={{ scale: 1.03, y: -1 }}
                       whileTap={{ scale: 0.97 }}
-                      className={`relative block w-full px-4 py-2.5 text-xs lg:text-sm font-medium transition-all duration-300 rounded-full ${
+                      className={`relative block w-full px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-all duration-300 rounded-full ${
                         (hoveredMenuLink === 'blog' || isBlogActive)
                           ? 'text-brand-blue'
                           : 'text-gray-900 hover:text-brand-blue'
@@ -892,7 +919,7 @@ const Navbar: React.FC = () => {
                         <motion.div
                           className="absolute inset-0 rounded-full bg-white/80 backdrop-blur-[20px] backdrop-saturate-[180%] border border-gray-200/50 shadow-sm"
                           layoutId="menuHover"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.6 }}
                         />
                       )}
                       <motion.span
@@ -901,7 +928,7 @@ const Navbar: React.FC = () => {
                           scale: (hoveredMenuLink === 'blog' || isBlogActive) ? 1.05 : 1,
                           fontWeight: (hoveredMenuLink === 'blog' || isBlogActive) ? 600 : 500
                         }}
-                        transition={{ type: 'spring', stiffness: 360, damping: 20, mass: 0.75 }}
+                        transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.5 }}
                       >
                         {navBlog}
                       </motion.span>
@@ -915,7 +942,7 @@ const Navbar: React.FC = () => {
                       onHoverEnd={() => setHoveredMenuLink(null)}
                       whileHover={{ scale: 1.03, y: -1 }}
                       whileTap={{ scale: 0.97 }}
-                      className={`relative block w-full px-4 py-2.5 text-xs lg:text-sm font-medium transition-all duration-300 rounded-full ${
+                      className={`relative block w-full px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-all duration-300 rounded-full ${
                         (hoveredMenuLink === 'contact' || isContactActive)
                           ? 'text-brand-blue'
                           : 'text-gray-900 hover:text-brand-blue'
@@ -925,7 +952,7 @@ const Navbar: React.FC = () => {
                         <motion.div
                           className="absolute inset-0 rounded-full bg-white/80 backdrop-blur-[20px] backdrop-saturate-[180%] border border-gray-200/50 shadow-sm"
                           layoutId="menuHover"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.6 }}
                         />
                       )}
                       <motion.span
@@ -934,7 +961,7 @@ const Navbar: React.FC = () => {
                           scale: (hoveredMenuLink === 'contact' || isContactActive) ? 1.05 : 1,
                           fontWeight: (hoveredMenuLink === 'contact' || isContactActive) ? 600 : 500
                         }}
-                        transition={{ type: 'spring', stiffness: 360, damping: 20, mass: 0.75 }}
+                        transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.5 }}
                       >
                         {navContact}
                       </motion.span>
@@ -1004,7 +1031,7 @@ const Navbar: React.FC = () => {
                             boxShadow: '0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(255,255,255,0.5)',
                           }}
                           layoutId="menuHoverCompany"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.6 }}
                         />
                       )}
                       <motion.span
@@ -1038,7 +1065,7 @@ const Navbar: React.FC = () => {
                             boxShadow: '0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(255,255,255,0.5)',
                           }}
                           layoutId="menuHoverCompany"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.6 }}
                         />
                       )}
                       <motion.span
@@ -1072,7 +1099,7 @@ const Navbar: React.FC = () => {
                             boxShadow: '0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(255,255,255,0.5)',
                           }}
                           layoutId="menuHoverCompany"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.6 }}
                         />
                       )}
                       <motion.span
@@ -1106,7 +1133,7 @@ const Navbar: React.FC = () => {
                             boxShadow: '0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(255,255,255,0.5)',
                           }}
                           layoutId="menuHoverCompany"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.6 }}
                         />
                       )}
                       <motion.span
@@ -1149,7 +1176,7 @@ const Navbar: React.FC = () => {
                             boxShadow: '0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(255,255,255,0.5)',
                           }}
                           layoutId="menuHoverAbout"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.6 }}
                         />
                       )}
                       <motion.span

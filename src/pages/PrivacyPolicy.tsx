@@ -140,7 +140,7 @@ We will respond to your inquiries in accordance with applicable UAE law and regu
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-12"
           >
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-brand-teal to-brand-blue mb-6">
@@ -163,7 +163,7 @@ We will respond to your inquiries in accordance with applicable UAE law and regu
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ duration: 0.15, delay: index * 0.03, ease: [0.25, 0.1, 0.25, 1] }}
                   className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8 hover:shadow-md transition-shadow duration-300"
                 >
                   <div className={`flex items-start gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
@@ -188,7 +188,7 @@ We will respond to your inquiries in accordance with applicable UAE law and regu
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.2 }}
+            transition={{ duration: 0.2, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
             className="mt-12 bg-gradient-to-br from-brand-teal to-brand-blue rounded-2xl p-8 text-white text-center"
           >
             <h3 className={`text-2xl font-bold mb-4 ${isRTL ? 'text-right' : 'text-left'}`}>Questions About Privacy?</h3>

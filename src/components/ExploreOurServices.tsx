@@ -306,7 +306,7 @@ const ExploreOurServices: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
             className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 mb-12 w-full"
           >
             {/* Image Section */}
@@ -321,7 +321,7 @@ const ExploreOurServices: React.FC = () => {
                 width={800}
                 height={800}
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 style={{ contentVisibility: 'auto' }}
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
@@ -329,7 +329,7 @@ const ExploreOurServices: React.FC = () => {
                 }}
               />
               {/* Overlay gradient for better text readability if needed */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
             </div>
 
             {/* Details Section */}

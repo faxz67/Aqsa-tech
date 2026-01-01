@@ -25,7 +25,8 @@ const cardVariants: Variants = {
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.4,
+      duration: 0.2,
+      ease: [0.25, 0.1, 0.25, 1],
     },
   },
 };
@@ -71,7 +72,7 @@ export default function Blog() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center sm:text-left"
           >
             <h1 className={`text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 mb-2 sm:mb-3 lg:mb-4 ${isRTL ? 'sm:text-right' : ''}`}>
@@ -189,7 +190,7 @@ export default function Blog() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
           >
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 px-2 sm:px-0 text-white">
               {t('blog.needProfessionalHelp')}

@@ -122,7 +122,7 @@ const GetInTouch: React.FC = React.memo(() => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
             className="inline-block mb-3 sm:mb-4"
           >
             <span className="inline-block px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-brand-teal/10 to-brand-blue/10 rounded-full border border-brand-teal/20 text-brand-teal font-semibold text-[10px] sm:text-xs lg:text-sm uppercase tracking-wider">
@@ -143,11 +143,11 @@ const GetInTouch: React.FC = React.memo(() => {
             initial={{ opacity: 0, x: isRTL ? 50 : -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className={`relative bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 lg:p-8 xl:p-10 2xl:p-12 animate-fade-zoom anim-delayed delay-200 hover:shadow-[0_20px_60px_-12px_rgba(0,0,0,0.25)] transition-all duration-500 form-bg-animated border border-gray-100 w-full ${isRTL ? 'lg:order-2' : 'lg:order-1'}`}
+            transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+            className={`relative bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 lg:p-8 xl:p-10 2xl:p-12 animate-fade-zoom anim-delayed delay-200 hover:shadow-[0_20px_60px_-12px_rgba(0,0,0,0.25)] transition-all duration-300 form-bg-animated border border-gray-100 w-full ${isRTL ? 'lg:order-2' : 'lg:order-1'}`}
           >
             {/* Decorative gradient border */}
-            <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-brand-teal/20 via-brand-blue/20 to-brand-teal/20 opacity-0 hover:opacity-100 transition-opacity duration-500 -z-10 blur-xl" />
+            <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-brand-teal/20 via-brand-blue/20 to-brand-teal/20 opacity-0 hover:opacity-100 transition-opacity duration-200 -z-10 blur-xl" />
             <div className="relative w-full">
               <div className="mb-5 sm:mb-6 lg:mb-8">
                 <h3 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900 mb-2">Fill out the form</h3>
@@ -159,7 +159,7 @@ const GetInTouch: React.FC = React.memo(() => {
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.1 }}
+                transition={{ duration: 0.15, delay: 0.03, ease: [0.25, 0.1, 0.25, 1] }}
                 className="animate-fade-zoom delay-240"
               >
                 <label htmlFor="name" className={`block text-sm sm:text-base font-bold text-gray-900 mb-2 sm:mb-3 w-full flex items-center gap-2 ${isRTL ? 'text-right flex-row-reverse' : 'text-left'}`}>
@@ -184,7 +184,7 @@ const GetInTouch: React.FC = React.memo(() => {
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.2 }}
+                transition={{ duration: 0.15, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
                 className="animate-fade-zoom delay-280"
               >
                 <label htmlFor="email" className={`block text-sm sm:text-base font-bold text-gray-900 mb-2 sm:mb-3 w-full flex items-center gap-2 ${isRTL ? 'text-right flex-row-reverse' : 'text-left'}`}>
@@ -209,7 +209,7 @@ const GetInTouch: React.FC = React.memo(() => {
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.3 }}
+                transition={{ duration: 0.15, delay: 0.07, ease: [0.25, 0.1, 0.25, 1] }}
                 className="animate-fade-zoom delay-320"
               >
                 <label htmlFor="phone" className={`block text-sm sm:text-base font-bold text-gray-900 mb-2 sm:mb-3 w-full flex items-center gap-2 ${isRTL ? 'text-right flex-row-reverse' : 'text-left'}`}>
@@ -234,7 +234,7 @@ const GetInTouch: React.FC = React.memo(() => {
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.4 }}
+                transition={{ duration: 0.15, delay: 0.09, ease: [0.25, 0.1, 0.25, 1] }}
                 className="animate-fade-zoom delay-360"
               >
                 <label htmlFor="subject" className={`block text-sm sm:text-base font-bold text-gray-900 mb-2 sm:mb-3 w-full flex items-center gap-2 ${isRTL ? 'text-right flex-row-reverse' : 'text-left'}`}>
@@ -259,7 +259,7 @@ const GetInTouch: React.FC = React.memo(() => {
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.5 }}
+                transition={{ duration: 0.15, delay: 0.11, ease: [0.25, 0.1, 0.25, 1] }}
                 className="animate-fade-zoom delay-400"
               >
                 <label htmlFor="message" className={`block text-sm sm:text-base font-bold text-gray-900 mb-2 sm:mb-3 w-full flex items-center gap-2 ${isRTL ? 'text-right flex-row-reverse' : 'text-left'}`}>
@@ -284,7 +284,7 @@ const GetInTouch: React.FC = React.memo(() => {
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.6 }}
+                transition={{ duration: 0.15, delay: 0.13, ease: [0.25, 0.1, 0.25, 1] }}
                 className="animate-fade-zoom delay-480 pt-2"
               >
                 <ProButton
@@ -368,9 +368,9 @@ const GetInTouch: React.FC = React.memo(() => {
                           scale: [1, 1.1, 1],
                         },
                         transition: {
-                          duration: 4,
+                          duration: 3,
                           repeat: Infinity,
-                          ease: "easeInOut" as const,
+                          ease: [0.4, 0, 0.6, 1] as const,
                         },
                       };
                     default:
@@ -381,11 +381,11 @@ const GetInTouch: React.FC = React.memo(() => {
                 return (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 12 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    whileHover={{ scale: 1.02, y: -2 }}
+                    transition={{ duration: 0.2, delay: index * 0.03, ease: [0.25, 0.1, 0.25, 1] }}
+                    whileHover={{ scale: 1.02, y: -2, transition: { type: "spring", stiffness: 500, damping: 30, mass: 0.5 } }}
                   >
                       <SpotlightCard
                       spotlightColor={
@@ -453,8 +453,8 @@ const GetInTouch: React.FC = React.memo(() => {
               initial={{ opacity: 0, x: isRTL ? -50 : 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className={`relative bg-gradient-to-br from-white to-gray-50 rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 lg:p-8 xl:p-10 text-gray-900 animate-fade-zoom anim-delayed delay-400 hover:shadow-[0_20px_60px_-12px_rgba(0,0,0,0.25)] transition-all duration-500 border border-gray-100 w-full ${isRTL ? 'text-right' : 'text-left'}`}
+              transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+              className={`relative bg-gradient-to-br from-white to-gray-50 rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 lg:p-8 xl:p-10 text-gray-900 animate-fade-zoom anim-delayed delay-400 hover:shadow-[0_20px_60px_-12px_rgba(0,0,0,0.25)] transition-all duration-300 border border-gray-100 w-full ${isRTL ? 'text-right' : 'text-left'}`}
             >
               {/* Decorative gradient border */}
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-brand-blue/20 via-brand-teal/20 to-brand-blue/20 opacity-0 hover:opacity-100 transition-opacity duration-500 -z-10 blur-xl" />
@@ -478,7 +478,7 @@ const GetInTouch: React.FC = React.memo(() => {
                       initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: index * 0.1 }}
+                      transition={{ duration: 0.15, delay: index * 0.03, ease: [0.25, 0.1, 0.25, 1] }}
                       className={`flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl bg-white/50 hover:bg-white transition-colors duration-300 group w-full ${isRTL ? 'flex-row-reverse' : ''}`}
                     >
                       <div className={`flex-shrink-0 w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110`}>
@@ -506,7 +506,7 @@ const GetInTouch: React.FC = React.memo(() => {
                     <div className="relative w-full z-10">
                       <a
                         href="tel:+971525010132"
-                        className={`relative flex items-center justify-center gap-2 sm:gap-3 w-full bg-white text-[#174A67] font-bold py-4 sm:py-5 lg:py-6 px-5 sm:px-6 lg:px-8 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] text-base sm:text-lg lg:text-xl overflow-hidden group ${isRTL ? 'flex-row-reverse' : ''}`}
+                        className={`relative flex items-center justify-center gap-2 sm:gap-3 w-full bg-white text-[#174A67] font-bold py-4 sm:py-5 lg:py-6 px-5 sm:px-6 lg:px-8 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] text-base sm:text-lg lg:text-xl overflow-hidden group ${isRTL ? 'flex-row-reverse' : ''}`}
                         style={{
                           boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2)',
                         }}

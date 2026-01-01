@@ -19,7 +19,7 @@ const FloatingContactButtons: React.FC = React.memo(() => {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"
-        className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_10px_30px_rgba(34,197,94,0.45)] hover:shadow-[0_16px_40px_rgba(34,197,94,0.6)] transition-all duration-300 hover:-translate-y-0.5"
+        className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_10px_30px_rgba(34,197,94,0.45)] hover:shadow-[0_16px_40px_rgba(34,197,94,0.6)] transition-all duration-200 hover:-translate-y-0.5"
       >
         <MessageCircle className="h-6 w-6" />
       </a>
