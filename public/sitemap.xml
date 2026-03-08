@@ -3,22 +3,59 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   
-  <!-- Homepage -->
+  <!-- Homepage - Optimized for "aqsatech in dubai" -->
   <url>
     <loc>https://aqsatech.ae/</loc>
-    <lastmod>2025-12-04</lastmod>
+    <lastmod>2026-01-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://aqsatech.ae/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://aqsatech.ae/?lang=ar" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://aqsatech.ae/" />
+    <image:image>
+      <image:loc>https://aqsatech.ae/Logo%20Chatgpt.png</image:loc>
+      <image:title>Aqsatech in Dubai - Aqsa Tech UAE - #1 Best Technical Services Company 2026</image:title>
+      <image:caption>Aqsatech in Dubai - Aqsa Tech UAE - Dubai's Most Trusted AC Service, Home Maintenance & Renovation Company</image:caption>
+    </image:image>
   </url>
   
-  <!-- Services Pages -->
+  <!-- All Services Page - High Priority -->
+  <url>
+    <loc>https://aqsatech.ae/services</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://aqsatech.ae/services" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://aqsatech.ae/services?lang=ar" />
+  </url>
+  
+  <!-- Blog Page - High Priority for Content Marketing -->
+  <url>
+    <loc>https://aqsatech.ae/blog</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://aqsatech.ae/blog" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://aqsatech.ae/blog?lang=ar" />
+  </url>
+  
+  <!-- Services Pages - Optimized for "aqsatech in dubai" + service keywords -->
+  
+  <!-- AC Services - Highest Priority Service -->
+  <url>
+    <loc>https://aqsatech.ae/services/ac-installation</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://aqsatech.ae/services/ac-installation" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://aqsatech.ae/services/ac-installation?lang=ar" />
+  </url>
+  
   <url>
     <loc>https://aqsatech.ae/services/wall-paper-fixing</loc>
-    <lastmod>2024-01-15</lastmod>
+    <lastmod>2026-01-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://aqsatech.ae/services/wall-paper-fixing" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://aqsatech.ae/services/wall-paper-fixing?lang=ar" />
   </url>
@@ -186,6 +223,24 @@
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://aqsatech.ae/blog" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://aqsatech.ae/blog?lang=ar" />
+  </url>
+  
+  <!-- Contact Page -->
+  <url>
+    <loc>https://aqsatech.ae/#contact</loc>
+    <lastmod>2025-12-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://aqsatech.ae/#contact" />
+  </url>
+  
+  <!-- About Section -->
+  <url>
+    <loc>https://aqsatech.ae/#about</loc>
+    <lastmod>2025-12-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://aqsatech.ae/#about" />
   </url>
   
 </urlset>

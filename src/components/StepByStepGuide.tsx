@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -161,4 +162,4 @@ const StepByStepGuide: React.FC = () => {
   );
 };
 
-export default StepByStepGuide;
+export default React.memo(StepByStepGuide);

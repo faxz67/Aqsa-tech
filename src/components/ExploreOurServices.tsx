@@ -1,6 +1,8 @@
+"use client";
+import { useRouter } from 'next/navigation';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+;
 import ProButton from './ui/ProButton';
 import {
   Wrench,
@@ -11,6 +13,7 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { optimizeImage } from '../utils/performance144';
 
 interface Category {
   id: string;
@@ -26,15 +29,16 @@ const ExploreOurServices: React.FC = () => {
   const { t, isRTL } = useLanguage();
   const [activeCategory, setActiveCategory] = useState('building');
   const [isCatOpen, setIsCatOpen] = useState(false);
-  const navigate = useNavigate();
+  const ___router = useRouter();
+  const navigate = (path: string | number) => { if (typeof path === "number" && path === -1) { ___router.back(); } else if (typeof path === "string") { ___router.push(path); } };
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) && 
-          buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) &&
+        buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
         setIsCatOpen(false);
       }
     };
@@ -180,8 +184,7 @@ const ExploreOurServices: React.FC = () => {
             )}
           </AnimatePresence>
 
-          <motion.button
-            ref={buttonRef}
+          <motion.button suppressHydrationWarning ref={buttonRef}
             type="button"
             aria-expanded={isCatOpen}
             aria-haspopup="listbox"
@@ -204,11 +207,11 @@ const ExploreOurServices: React.FC = () => {
                 {categories.find((c) => c.id === activeCategory)?.name || t('exploreServices.selectCategory')}
               </span>
             </div>
-            <ChevronDown 
+            <ChevronDown
               className={`w-5 h-5 text-gray-500 flex-shrink-0 transition-transform duration-200 ${isCatOpen ? 'rotate-180 text-brand-teal' : ''} ${isRTL ? 'mr-0' : 'ml-2'}`}
             />
           </motion.button>
-          
+
           <AnimatePresence>
             {isCatOpen && (
               <motion.div
@@ -224,25 +227,23 @@ const ExploreOurServices: React.FC = () => {
                 {categories.map((category) => {
                   const active = activeCategory === category.id;
                   return (
-                    <button
-                      key={category.id}
+                    <button suppressHydrationWarning key={category.id}
                       type="button"
                       role="option"
                       aria-selected={active}
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        setActiveCategory(category.id); 
+                        setActiveCategory(category.id);
                         setIsCatOpen(false);
                       }}
                       onTouchStart={(e) => {
                         e.stopPropagation();
                       }}
-                      className={`w-full ${isRTL ? 'text-right flex-row-reverse' : 'text-left'} px-4 py-4 flex items-center gap-3 transition-all duration-200 touch-manipulation ${
-                        active 
-                          ? 'bg-brand-teal/10 text-brand-teal font-bold border-l-4 border-brand-teal' 
-                          : 'text-gray-900 hover:bg-gray-50 active:bg-gray-100'
-                      } ${isRTL ? 'border-r-4 border-l-0' : ''}`}
+                      className={`w-full ${isRTL ? 'text-right flex-row-reverse' : 'text-left'} px-4 py-4 flex items-center gap-3 transition-all duration-200 touch-manipulation ${active
+                        ? 'bg-brand-teal/10 text-brand-teal font-bold border-l-4 border-brand-teal'
+                        : 'text-gray-900 hover:bg-gray-50 active:bg-gray-100'
+                        } ${isRTL ? 'border-r-4 border-l-0' : ''}`}
                     >
                       <span className={`flex items-center flex-shrink-0 w-6 h-6 ${active ? 'text-brand-teal' : 'text-gray-700'}`}>
                         {category.icon}
@@ -264,24 +265,20 @@ const ExploreOurServices: React.FC = () => {
             )}
           </AnimatePresence>
         </div>
-
         {/* Category Tabs - desktop/tablet */}
         <div className={`hidden sm:flex gap-6 lg:gap-8 mb-8 overflow-x-auto pb-4 scrollbar-hide border-b border-gray-200 ${isRTL ? 'flex-row-reverse' : ''}`}>
           {categories.map((category) => (
-            <motion.button
-              key={category.id}
+            <motion.button suppressHydrationWarning key={category.id}
               whileHover={{ y: -2 }}
               onClick={() => setActiveCategory(category.id)}
-              className={`flex flex-col items-center gap-2 min-w-fit transition-all duration-300 ${
-                activeCategory === category.id
-                  ? 'text-brand-teal'
-                  : 'text-gray-900 hover:text-brand-blue'
-              }`}
+              className={`flex flex-col items-center gap-2 min-w-fit transition-all duration-300 ${activeCategory === category.id
+                ? 'text-brand-teal'
+                : 'text-gray-900 hover:text-brand-blue'
+                }`}
             >
               <div
-                className={`transition-colors duration-300 ${
-                  activeCategory === category.id ? 'text-brand-teal' : 'text-gray-700'
-                }`}
+                className={`transition-colors duration-300 ${activeCategory === category.id ? 'text-brand-teal' : 'text-gray-700'
+                  }`}
               >
                 {category.icon}
               </div>
@@ -307,22 +304,34 @@ const ExploreOurServices: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+            style={{
+              transform: 'translateZ(0)',
+              willChange: 'transform, opacity',
+              backfaceVisibility: 'hidden'
+            }}
             className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 mb-12 w-full"
           >
             {/* Image Section */}
             <div className={`relative h-[240px] sm:h-[300px] md:h-[350px] lg:h-[400px] xl:h-[450px] 2xl:h-[500px] rounded-xl sm:rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg group ${isRTL ? 'lg:order-2' : ''}`}>
               <img
+                ref={(img) => {
+                  if (img) optimizeImage(img);
+                }}
                 src={categoryContent[activeCategory]?.image || '/images/photos/explore-property.jpg'}
                 alt={categoryContent[activeCategory]?.title || 'Property Maintenance'}
                 loading="lazy"
                 decoding="async"
-
-
                 width={800}
                 height={800}
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                style={{ contentVisibility: 'auto' }}
+                style={{
+                  contentVisibility: 'auto',
+                  transform: 'translateZ(0)',
+                  willChange: 'transform',
+                  backfaceVisibility: 'hidden',
+                  WebkitBackfaceVisibility: 'hidden'
+                }}
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.src = '/images/photos/explore-property.jpg';
@@ -376,4 +385,4 @@ const ExploreOurServices: React.FC = () => {
   );
 };
 
-export default ExploreOurServices;
+export default React.memo(ExploreOurServices);

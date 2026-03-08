@@ -1,5 +1,4 @@
-'use client';
-
+"use client";
 import { ElementType, useEffect, useRef, useState, createElement, useMemo, useCallback } from 'react';
 import { gsap } from 'gsap';
 
@@ -87,13 +86,19 @@ const TextType = ({
   useEffect(() => {
     if (showCursor && cursorRef.current) {
       gsap.set(cursorRef.current, { opacity: 1 });
-      gsap.to(cursorRef.current, {
+      const animation = gsap.to(cursorRef.current, {
         opacity: 0,
         duration: cursorBlinkDuration,
         repeat: -1,
         yoyo: true,
-        ease: 'power2.inOut'
+        ease: 'power2.inOut',
+        force3D: true,
+        willChange: 'opacity'
       });
+      
+      return () => {
+        animation.kill();
+      };
     }
   }, [showCursor, cursorBlinkDuration]);
 
@@ -101,6 +106,7 @@ const TextType = ({
     if (!isVisible) return;
 
     let timeout: NodeJS.Timeout;
+    let rafId: number;
 
     const currentText = textArray[currentTextIndex];
     const processedText = reverseMode ? currentText.split('').reverse().join('') : currentText;
@@ -121,19 +127,23 @@ const TextType = ({
           setCurrentCharIndex(0);
           timeout = setTimeout(() => {}, pauseDuration);
         } else {
-          timeout = setTimeout(() => {
-            setDisplayedText(prev => prev.slice(0, -1));
-          }, deletingSpeed);
+          rafId = requestAnimationFrame(() => {
+            timeout = setTimeout(() => {
+              setDisplayedText(prev => prev.slice(0, -1));
+            }, deletingSpeed);
+          });
         }
       } else {
         if (currentCharIndex < processedText.length) {
-          timeout = setTimeout(
-            () => {
-              setDisplayedText(prev => prev + processedText[currentCharIndex]);
-              setCurrentCharIndex(prev => prev + 1);
-            },
-            variableSpeed ? getRandomSpeed() : typingSpeed
-          );
+          rafId = requestAnimationFrame(() => {
+            timeout = setTimeout(
+              () => {
+                setDisplayedText(prev => prev + processedText[currentCharIndex]);
+                setCurrentCharIndex(prev => prev + 1);
+              },
+              variableSpeed ? getRandomSpeed() : typingSpeed
+            );
+          });
         } else if (textArray.length > 1) {
           timeout = setTimeout(() => {
             setIsDeleting(true);
@@ -148,7 +158,10 @@ const TextType = ({
       executeTypingAnimation();
     }
 
-    return () => clearTimeout(timeout);
+    return () => {
+      clearTimeout(timeout);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, [
     currentCharIndex,
     displayedText,

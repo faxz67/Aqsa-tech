@@ -1,7 +1,9 @@
+"use client";
 import ProButton from './ui/ProButton';
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
+import { optimizeImage } from '../utils/performance144';
 
 const About: React.FC = () => {
   const { t, isRTL } = useLanguage();
@@ -13,24 +15,30 @@ const About: React.FC = () => {
             {/* Left - Photo (stays in the left corner) */}
             <div className={`relative h-56 sm:h-64 md:h-72 lg:h-auto ${isRTL ? 'lg:order-2' : ''} w-full`}>
               <img
+                ref={(img) => {
+                  if (img) optimizeImage(img);
+                }}
                 src="/images/photos/about-main.jpg"
-                alt="Modern United Arab Emirates residential building exterior - Aqsa Tech property maintenance and renovation services"
+                alt="Aqsatech in Dubai - Modern UAE residential building exterior - Aqsa Tech property maintenance and renovation services Dubai"
                 loading="lazy"
                 decoding="async"
-
-
                 width={1200}
                 height={900}
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="absolute inset-0 w-full h-full object-cover object-center"
-                style={{ contentVisibility: 'auto' }}
+                style={{ 
+                  contentVisibility: 'auto',
+                  transform: 'translateZ(0)',
+                  willChange: 'transform',
+                  backfaceVisibility: 'hidden'
+                }}
               />
               {/* subtle overlay */}
               <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
               {/* decorative small building image in corner */}
               <img
                 src="/images/photos/about-detail.jpg"
-                alt="United Arab Emirates modern architecture detail - Aqsa Tech"
+                alt="Aqsatech in Dubai - UAE modern architecture detail - Aqsa Tech renovation services Dubai"
                 loading="lazy"
                 decoding="async"
 
@@ -84,4 +92,4 @@ const About: React.FC = () => {
   );
 };
 
-export default About;
+export default memo(About);

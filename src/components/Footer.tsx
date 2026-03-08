@@ -1,6 +1,7 @@
-import React from 'react';
+"use client";
+import { useRouter, usePathname } from 'next/navigation';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface FooterLink {
@@ -17,8 +18,9 @@ interface FooterSection {
 
 const Footer: React.FC = () => {
   const { t, isRTL } = useLanguage();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const ___router = useRouter();
+  const navigate = (path: string | number) => { if (typeof path === "number" && path === -1) { ___router.back(); } else if (typeof path === "string") { ___router.push(path); } };
+  const pathname = usePathname();
 
   // Social media links
   const socialLinks = {
@@ -36,8 +38,8 @@ const Footer: React.FC = () => {
 
     if (href.startsWith('#')) {
       const sectionId = href.substring(1);
-      if (location.pathname !== '/') {
-        navigate('/', { state: { target: sectionId } });
+      if (pathname !== '/') {
+        navigate(`/#${sectionId}`);
       } else {
         const element = document.getElementById(sectionId);
         if (element) {
@@ -104,7 +106,7 @@ const Footer: React.FC = () => {
               <div className="relative flex-shrink-0">
                 <img
                   src="/Logo Chatgpt.png"
-                  alt="Aqsa Technical Services logo"
+                  alt="Aqsatech in Dubai - Aqsa Tech UAE Logo - #1 Technical Services Company Dubai"
                   loading="lazy"
                   decoding="async"
                   fetchPriority="low"
@@ -136,8 +138,8 @@ const Footer: React.FC = () => {
 
           {/* Footer Links Sections */}
           {footerSections.map((section, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className={`flex flex-col ${isRTL ? 'items-end' : 'items-start'} w-full`}
             >
               <h3 className="text-gray-900 font-semibold text-xs sm:text-sm lg:text-base mb-3 sm:mb-4 w-full text-center sm:text-left">
@@ -178,4 +180,4 @@ const Footer: React.FC = () => {
   );
 };
 
-export default Footer;
+export default memo(Footer);

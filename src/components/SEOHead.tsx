@@ -1,5 +1,7 @@
+"use client";
+import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface SEOHeadProps {
@@ -19,16 +21,16 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   type = 'website',
   noindex = false,
 }) => {
-  const location = useLocation();
+  const pathname = usePathname();
   const { t } = useLanguage();
-  
+
   const baseUrl = 'https://aqsatech.ae';
-  const currentUrl = `${baseUrl}${location.pathname}`;
-  
+  const currentUrl = `${baseUrl}${pathname}`;
+
   // Default SEO values - Use translated values
   const defaultTitle = t('seo.title');
   const defaultDescription = t('seo.description');
-  const defaultKeywords = 'aqsatech, Aqsa Tech, AQSATECH, aqsatech.ae, aqsatech Dubai, aqsatech UAE, aqsatech services, aqsatech contact, aqsatech phone, property maintenance Dubai, renovation Dubai, remodeling Dubai, AC repair Dubai, plumbing Dubai, electrical services Dubai, painting Dubai, tiling Dubai, carpentry Dubai, MEP services Dubai, HVAC Dubai, building maintenance Dubai, home renovation Dubai, commercial renovation Dubai, Dubai maintenance company, Dubai contractors, Dubai handyman, property services Dubai UAE';
+  const defaultKeywords = 'aqsatech in dubai, aqsatech dubai, aqsatech uae, aqsatech.ae, aqsa tech dubai, aqsa tech uae, aqsatech services dubai, aqsatech contact dubai, aqsatech phone dubai, aqsatech ac service dubai, aqsatech home maintenance dubai, aqsatech renovation dubai, aqsatech handyman dubai, aqsatech plumbing dubai, aqsatech electrical dubai, aqsatech painting dubai, aqsatech tiling dubai, aqsatech office fit out dubai, aqsatech villa renovation dubai, aqsatech apartment renovation dubai, aqsatech kitchen renovation dubai, aqsatech ac installation dubai, aqsatech ac repair dubai, aqsatech ac maintenance dubai, aqsatech emergency services dubai, aqsatech 24/7 dubai, aqsatech same day service dubai, aqsatech free quote dubai, aqsatech property maintenance dubai, aqsatech building maintenance dubai, aqsatech MEP services dubai, aqsatech HVAC dubai, aqsatech carpentry dubai, aqsatech waterproofing dubai, aqsatech licensed contractor dubai, Aqsa Tech, AQSATECH, technical services UAE, home maintenance Dubai, AC service UAE, renovation Dubai, handyman UAE, fit out UAE, villa renovation UAE, apartment renovation UAE, AC repair Dubai, plumbing services Dubai, electrical services UAE, painting contractors Dubai, tiling services Dubai, carpentry Dubai, HVAC Dubai, building maintenance UAE, property maintenance Dubai, office fit out Dubai, kitchen renovation UAE, AC installation Dubai, AC maintenance UAE, emergency plumber Dubai, 24/7 handyman services, same day AC repair, licensed electrician Dubai, waterproofing UAE';
 
   const finalTitle = title || defaultTitle;
   const finalDescription = description || defaultDescription;
@@ -107,12 +109,12 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       hreflang.href = href;
     };
 
-    updateHreflang('en', `${currentUrl}${location.search ? location.search : ''}`);
+    updateHreflang('en', currentUrl);
     updateHreflang('x-default', currentUrl);
 
     // Update HTML lang attribute
     document.documentElement.lang = 'en';
-  }, [finalTitle, finalDescription, finalKeywords, currentUrl, image, type, noindex, location]);
+  }, [finalTitle, finalDescription, finalKeywords, currentUrl, image, type, noindex, pathname]);
 
   return null;
 };

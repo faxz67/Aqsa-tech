@@ -1,3 +1,4 @@
+"use client";
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import ProButton from './ui/ProButton';
@@ -9,6 +10,7 @@ const HeroSection: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const prefersReducedMotion = useReducedMotion() ?? false;
 
   // Scroll-based zoom animation
@@ -22,11 +24,26 @@ const HeroSection: React.FC = () => {
   const videoScale = useTransform(scrollYProgress, [0, 1], [1.1, 1.3]);
 
   useEffect(() => {
-    // Load video immediately for hero (above fold, critical content)
-    // Use requestAnimationFrame for smoother initialization
-    requestAnimationFrame(() => {
-      setShouldLoadVideo(true);
-    });
+    // Use Intersection Observer for better performance
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            requestAnimationFrame(() => {
+              setShouldLoadVideo(true);
+            });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '50px' }
+    );
+
+    if (heroRef.current) {
+      observer.observe(heroRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -36,7 +53,13 @@ const HeroSection: React.FC = () => {
         {/* Hero Background Video with Professional Zoom Animation */}
         <div className="absolute inset-0 z-0 w-full h-full overflow-hidden">
           <motion.div
-            style={{ scale: prefersReducedMotion ? 1 : videoScale }}
+            style={{ 
+              scale: prefersReducedMotion ? 1 : videoScale,
+              transform: 'translateZ(0)',
+              willChange: 'transform',
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden'
+            }}
             className="w-full h-full"
           >
             {shouldLoadVideo ? (
@@ -48,22 +71,36 @@ const HeroSection: React.FC = () => {
                 muted
                 playsInline
                 preload="metadata"
+                poster="/Logo Chatgpt.png"
                 className="w-full h-full object-cover"
                 style={{
                   transform: 'translateZ(0)',
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden',
-                  willChange: 'transform'
+                  willChange: prefersReducedMotion ? 'auto' : 'transform',
+                  isolation: 'isolate',
+                  contain: 'layout style paint',
+                  opacity: isVideoLoaded ? 1 : 0,
+                  transition: 'opacity 0.3s ease-in-out'
                 }}
-                aria-label="Aqsa Tech - AQSATECH Property Maintenance Services Hero Video"
+                aria-label="Aqsatech in Dubai - Aqsa Tech UAE Property Maintenance Services Hero Video"
                 onLoadedData={() => {
+                  setIsVideoLoaded(true);
                   if (videoRef.current) {
                     videoRef.current.play().catch(() => {});
                   }
                 }}
               />
             ) : (
-              <div className="w-full h-full bg-black/60" />
+              <img 
+                src="/Logo Chatgpt.png" 
+                alt="Aqsa Tech Dubai" 
+                className="w-full h-full object-cover"
+                style={{
+                  transform: 'translateZ(0)',
+                  backfaceVisibility: 'hidden'
+                }}
+              />
             )}
           </motion.div>
         </div>

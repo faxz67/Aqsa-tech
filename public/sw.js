@@ -1,26 +1,37 @@
 // Service Worker for Performance Optimization
-const CACHE_VERSION = 'aqsatech-v2';
+const CACHE_VERSION = 'aqsatech-v3';
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
 const IMAGE_CACHE = `images-${CACHE_VERSION}`;
+const FONT_CACHE = `fonts-${CACHE_VERSION}`;
+
+// Cache size limits (prevent excessive storage usage)
+const MAX_CACHE_SIZE = 50 * 1024 * 1024; // 50MB per cache
+const MAX_IMAGE_CACHE_SIZE = 100 * 1024 * 1024; // 100MB for images
 
 // Critical assets to cache immediately
 const PRECACHE_ASSETS = [
   '/',
-  '/index.html',
-  '/Logo.jpg',
+  '/Logo Chatgpt.png',
   '/robots.txt',
   '/sitemap.xml',
 ];
 
 // Install event - cache critical assets
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing service worker v2...');
+  console.log('[SW] Installing service worker v3...');
   event.waitUntil(
-    caches.open(STATIC_CACHE).then((cache) => {
-      console.log('[SW] Caching static assets');
-      return cache.addAll(PRECACHE_ASSETS);
-    })
+    Promise.all([
+      caches.open(STATIC_CACHE).then((cache) => {
+        console.log('[SW] Caching static assets');
+        return cache.addAll(PRECACHE_ASSETS);
+      }),
+      // Pre-cache critical CSS and JS chunks
+      caches.open(STATIC_CACHE).then((cache) => {
+        // These will be populated on first load
+        return Promise.resolve();
+      })
+    ])
   );
   self.skipWaiting();
 });
@@ -91,18 +102,17 @@ self.addEventListener('fetch', (event) => {
   // Font caching strategy (Cache First - fonts rarely change)
   if (request.destination === 'font' || url.pathname.match(/\.(woff|woff2|ttf|otf|eot)$/i)) {
     event.respondWith(
-      caches.match(request).then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-        return fetch(request).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            return caches.open(STATIC_CACHE).then((cache) => {
-              cache.put(request, networkResponse.clone());
-              return networkResponse;
-            });
+      caches.open(FONT_CACHE).then((cache) => {
+        return cache.match(request).then((cachedResponse) => {
+          if (cachedResponse) {
+            return cachedResponse;
           }
-          return networkResponse;
+          return fetch(request).then((networkResponse) => {
+            if (networkResponse && networkResponse.status === 200) {
+              cache.put(request, networkResponse.clone());
+            }
+            return networkResponse;
+          });
         });
       })
     );

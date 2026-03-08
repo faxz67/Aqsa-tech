@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useCallback } from 'react';
 import { PhoneCall, Send, CheckCircle, Mail, Building2, Clock, Shield, FileText, Award, DollarSign } from 'lucide-react';
 import { motion } from 'framer-motion';

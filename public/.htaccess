@@ -1,14 +1,32 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  RewriteBase /
 
-  # Trailing slash handling
+  # ============================================
+  # FORCE HTTPS - CRITICAL FOR SECURITY
+  # ============================================
+  # Redirect all HTTP traffic to HTTPS (301 permanent redirect)
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Also handle proxy/load balancer scenarios
+  RewriteCond %{HTTP:X-Forwarded-Proto} =http
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Prevent direct access to index.html (optional, for cleaner URLs)
+  RewriteRule ^index\.html$ - [L]
+
+  # Trailing slash handling - redirect to non-trailing slash
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^(.+)/$ /$1 [L,R=301]
+  RewriteCond %{REQUEST_URI} (.+)/$
+  RewriteRule ^ %1 [R=301,L]
 
   # React SPA – always serve index.html for client-side routes
+  # This ensures routes like /about, /services, /blog work correctly
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^ index.html [L]
+  RewriteRule . /index.html [L]
 </IfModule>
 
 # Compression
@@ -41,25 +59,55 @@ ErrorDocument 404 /index.html
 
 # Performance Optimizations
 <IfModule mod_headers.c>
-  # Enable compression
-  <FilesMatch "\.(js|css|html|svg|json|xml)$">
+  # HTML files - short cache (they change frequently)
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=3600, must-revalidate"
+  </FilesMatch>
+  
+  # Static assets - long cache with immutable
+  <FilesMatch "\.(js|css|svg|json|xml)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
   
-  # Images cache
+  # Images cache - long cache
   <FilesMatch "\.(jpg|jpeg|png|gif|webp|avif|svg)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
   
-  # Fonts cache
+  # Fonts cache - long cache
   <FilesMatch "\.(woff|woff2|ttf|otf|eot)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
   
-  # Preload critical resources
-  <FilesMatch "\.(js|css)$">
-    Header set Link "</Logo.jpg>; rel=preload; as=image"
-  </FilesMatch>
+  # ============================================
+  # SECURITY HEADERS - CRITICAL FOR HTTPS
+  # ============================================
+  
+  # HSTS (HTTP Strict Transport Security) - Force HTTPS for 1 year
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  
+  # Prevent MIME type sniffing
+  Header always set X-Content-Type-Options "nosniff"
+  
+  # Prevent clickjacking
+  Header always set X-Frame-Options "SAMEORIGIN"
+  
+  # XSS Protection
+  Header always set X-XSS-Protection "1; mode=block"
+  
+  # Referrer Policy
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  
+  # Content Security Policy - Prevent mixed content and enforce HTTPS
+  # upgrade-insecure-requests automatically upgrades all HTTP requests to HTTPS
+  Header always set Content-Security-Policy "upgrade-insecure-requests; default-src 'self' https: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://api.web3forms.com https://wa.me; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://api.web3forms.com https://wa.me https://fonts.googleapis.com https://fonts.gstatic.com; frame-src 'self' https:; media-src 'self' https: data: blob:;"
+  
+  # Permissions Policy (formerly Feature Policy)
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  
+  # Remove server information
+  Header always unset Server
+  Header always unset X-Powered-By
 </IfModule>
 
 # Enable GZIP compression
@@ -71,4 +119,13 @@ ErrorDocument 404 /index.html
 <IfModule mod_brotli.c>
   AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/xml text/css text/javascript application/javascript application/json
 </IfModule>
+
+# HTTPS redirect is now handled at the top of the file
+# This ensures all traffic is forced to HTTPS before any other rules
+
+# Prevent access to sensitive files
+<FilesMatch "^(\.htaccess|\.env|package\.json|package-lock\.json|yarn\.lock)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
 

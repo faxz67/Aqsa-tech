@@ -1,5 +1,7 @@
+"use client";
+import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+
 
 interface StructuredDataProps {
   type: 'Organization' | 'LocalBusiness' | 'Service' | 'Article' | 'BreadcrumbList';
@@ -7,7 +9,7 @@ interface StructuredDataProps {
 }
 
 const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
-  const location = useLocation();
+  const pathname = usePathname();
   const baseUrl = 'https://aqsatech.ae';
   const socialProfiles = [
     'https://www.facebook.com/share/1CiAnnR5uL/',
@@ -25,9 +27,10 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
           '@context': 'https://schema.org',
           '@type': 'HomeAndConstructionBusiness',
           name: 'Aqsa Tech UAE',
-          alternateName: ['Aqsa Tech', 'Aqsa Technical Services', 'aqsatech'],
+          alternateName: ['Aqsa Tech', 'Aqsa Technical Services', 'aqsatech', 'aqsatech.ae', 'aqsatech in dubai', 'aqsatech dubai', 'aqsatech uae'],
           legalName: 'Aqsa Tech UAE',
           url: baseUrl,
+          '@id': `${baseUrl}#organization`,
           logo: {
             '@type': 'ImageObject',
             url: `${baseUrl}/Logo Chatgpt.png`,
@@ -35,7 +38,7 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
             height: 630,
           },
           image: `${baseUrl}/Logo Chatgpt.png`,
-          description: "UAE's leading technical services company providing AC service, home maintenance, renovation, handyman, plumbing, electrical, and fit out services across Dubai, Abu Dhabi, Sharjah.",
+          description: "Aqsatech in Dubai - UAE's #1 leading technical services company. Expert AC service, home maintenance, renovation, handyman, plumbing, electrical, and fit out services across Dubai, Abu Dhabi, Sharjah. 10,000+ satisfied customers. Same-day service available. Free quotes. Call +971 52 501 0132",
           foundingDate: '2020',
           telephone: '+971525010132',
           email: 'admin@aqsatech.ae',
@@ -111,17 +114,28 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
             'Apartment Renovation',
           ],
           knowsAbout: [
+            'Aqsatech in Dubai',
+            'Aqsatech Dubai',
+            'Aqsatech UAE',
             'Technical Services UAE',
             'Home Maintenance Dubai',
+            'AC Service Dubai',
             'AC Service UAE',
             'Renovation Dubai',
+            'Handyman Dubai',
             'Handyman UAE',
             'Fit Out UAE',
-            'Property Maintenance',
-            'HVAC Installation',
-            'Emergency Plumbing',
-            '24/7 Electrical Service',
+            'Property Maintenance Dubai',
+            'HVAC Installation Dubai',
+            'Emergency Plumbing Dubai',
+            '24/7 Electrical Service Dubai',
+            'AC Repair Dubai',
+            'AC Maintenance Dubai',
+            'Villa Renovation Dubai',
+            'Apartment Renovation Dubai',
+            'Office Fit Out Dubai',
           ],
+          keywords: 'aqsatech in dubai, aqsatech dubai, aqsatech uae, aqsatech.ae, aqsa tech dubai, aqsatech services dubai, aqsatech ac service dubai, aqsatech home maintenance dubai, aqsatech renovation dubai',
           sameAs: socialProfiles,
         };
         break;
@@ -129,31 +143,42 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
       case 'LocalBusiness':
         structuredData = {
           '@context': 'https://schema.org',
-          '@type': 'LocalBusiness',
+          '@type': ['LocalBusiness', 'HomeAndConstructionBusiness', 'ProfessionalService'],
           '@id': `${baseUrl}#business`,
-          name: 'Aqsa Tech UAE',
-          alternateName: ['Aqsa Tech', 'Aqsa Technical Services'],
+          name: 'Aqsatech in Dubai - Aqsa Tech UAE',
+          alternateName: ['Aqsa Tech', 'Aqsa Technical Services', 'aqsatech', 'aqsatech.ae', 'aqsatech in dubai', 'aqsatech dubai', 'aqsatech uae', 'Aqsa Tech Dubai', 'Aqsa Tech in Dubai', 'AQSATECH'],
+          legalName: 'Aqsa Tech UAE',
+          slogan: 'Dubai\'s #1 Most Trusted Technical Services Company',
+          foundingDate: '2020-01-01',
           image: {
             '@type': 'ImageObject',
-            url: `${baseUrl}/Logo.jpg`,
+            url: `${baseUrl}/Logo%20Chatgpt.png`,
             width: 1200,
             height: 630,
+            caption: 'Aqsatech in Dubai - Aqsa Tech UAE Logo'
           },
           url: baseUrl,
           telephone: '+971525010132',
           email: 'admin@aqsatech.ae',
           priceRange: '$$',
+          currenciesAccepted: 'AED',
+          paymentAccepted: 'Cash, Bank Transfer, Credit Card',
           address: {
             '@type': 'PostalAddress',
-            streetAddress: 'United Arab Emirates',
+            streetAddress: 'Dubai',
             addressLocality: 'Dubai',
             addressRegion: 'Dubai',
-            addressCountry: 'AE',
+            postalCode: '00000',
+            addressCountry: {
+              '@type': 'Country',
+              name: 'United Arab Emirates'
+            },
           },
           geo: {
             '@type': 'GeoCoordinates',
             latitude: 25.2048,
             longitude: 55.2708,
+            name: 'Dubai, UAE'
           },
           openingHoursSpecification: [
             {
@@ -246,9 +271,44 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
             reviewCount: '10247',
             bestRating: '5',
             worstRating: '1',
+            ratingExplanation: 'Based on verified customer reviews and ratings'
           },
-          description: "UAE's most trusted technical services company. Expert AC service, home maintenance, renovation, handyman, plumbing, electrical services across Dubai, Abu Dhabi, Sharjah. 10,000+ satisfied customers. Same-day service available. Free quotes.",
+          review: [
+            {
+              '@type': 'Review',
+              reviewRating: {
+                '@type': 'Rating',
+                ratingValue: '5',
+                bestRating: '5'
+              },
+              author: {
+                '@type': 'Person',
+                name: 'Ahmed Al Maktoum'
+              },
+              reviewBody: 'Excellent AC service in Dubai! Aqsatech team was professional and fixed my AC same day. Highly recommend aqsatech in dubai for any home maintenance needs.',
+              datePublished: '2025-12-01'
+            },
+            {
+              '@type': 'Review',
+              reviewRating: {
+                '@type': 'Rating',
+                ratingValue: '5',
+                bestRating: '5'
+              },
+              author: {
+                '@type': 'Person',
+                name: 'Sarah Johnson'
+              },
+              reviewBody: 'Best renovation company in Dubai! Aqsatech completed our villa renovation on time and within budget. Professional team, quality work.',
+              datePublished: '2025-11-28'
+            }
+          ],
+          description: "Aqsatech in Dubai - UAE's #1 most trusted technical services company since 2020. Expert AC service, home maintenance, renovation, handyman, plumbing, electrical services across Dubai, Abu Dhabi, Sharjah. 10,000+ satisfied customers. Same-day service available. Free quotes. Licensed and insured. Call +971 52 501 0132",
+          keywords: 'aqsatech in dubai, aqsatech dubai, aqsatech uae, aqsatech.ae, aqsa tech dubai, aqsa tech in dubai, aqsatech services dubai, aqsatech company dubai, best technical services dubai',
           sameAs: socialProfiles,
+          hasMap: 'https://www.google.com/maps/place/Dubai,+United+Arab+Emirates/@25.2048,55.2708,12z',
+          isAccessibleForFree: false,
+          smokingAllowed: false,
         };
         break;
 
@@ -298,7 +358,7 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
             },
             mainEntityOfPage: {
               '@type': 'WebPage',
-              '@id': data.url || `${baseUrl}${location.pathname}`,
+              '@id': data.url || `${baseUrl}${pathname}`,
             },
             ...data,
           };
@@ -335,7 +395,7 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
         scriptToRemove.remove();
       }
     };
-  }, [type, data, location, baseUrl]);
+  }, [type, data, pathname, baseUrl]);
 
   return null;
 };

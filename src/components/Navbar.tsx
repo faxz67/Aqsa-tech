@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+"use client";
+import {  useRouter , usePathname } from 'next/navigation';
+import { useState, useEffect, memo } from 'react';
+import Link from 'next/link';
 import { Zap, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -22,18 +24,19 @@ const Navbar: React.FC = () => {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const [hoveredMenuLink, setHoveredMenuLink] = useState<string | null>(null);
   
-  const location = useLocation();
-  const navigate = useNavigate();
+  const pathname = usePathname();
+  const ___router = useRouter();
+  const navigate = (path: string | number) => { if (typeof path === "number" && path === -1) { ___router.back(); } else if (typeof path === "string") { ___router.push(path); } };
   const { t, isRTL } = useLanguage();
 
   const [activeSection, setActiveSection] = useState<'home' | 'about' | 'services' | 'contact' | null>('home');
 
-  const isHomeActive = location.pathname === '/' && (!activeSection || activeSection === 'home');
-  const isAboutActive = location.pathname === '/' && activeSection === 'about';
-  const isServicesSectionActive = location.pathname === '/' && activeSection === 'services';
-  const isContactActive = location.pathname === '/' && activeSection === 'contact';
-  const isBlogActive = location.pathname.startsWith('/blog');
-  const isServicesActive = location.pathname.startsWith('/services') || isServicesSectionActive;
+  const isHomeActive = pathname ==='/' && (!activeSection || activeSection === 'home');
+  const isAboutActive = pathname ==='/' && activeSection === 'about';
+  const isServicesSectionActive = pathname ==='/' && activeSection === 'services';
+  const isContactActive = pathname ==='/' && activeSection === 'contact';
+  const isBlogActive = pathname?.startsWith('/blog');
+  const isServicesActive = pathname?.startsWith('/services') || isServicesSectionActive;
 
   const navHome = t('nav.home');
   const navAbout = t('nav.about');
@@ -49,7 +52,7 @@ const Navbar: React.FC = () => {
         window.requestAnimationFrame(() => {
           setIsScrolled(window.scrollY > 20);
 
-          if (location.pathname === '/') {
+          if (pathname ==='/') {
             const hero = document.getElementById('hero');
             const servicesSection = document.getElementById('services');
             const contact = document.getElementById('contact');
@@ -85,12 +88,12 @@ const Navbar: React.FC = () => {
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [location.pathname]);
+  }, [pathname]);
 
   useEffect(() => {
     setIsServicesOpen(false);
     setIsNestedOpen(false);
-  }, [location.pathname]);
+  }, [pathname]);
 
   // Block body scroll when side menu is open
   useEffect(() => {
@@ -107,7 +110,7 @@ const Navbar: React.FC = () => {
   const handleNavClick = (path: string) => {
     if (path.includes('#')) {
       const [route, hash] = path.split('#');
-      if (location.pathname !== route) {
+      if (pathname !==route) {
         navigate(route);
         setTimeout(() => {
           const element = document.getElementById(hash);
@@ -125,7 +128,7 @@ const Navbar: React.FC = () => {
       if (hash === 'about') setActiveSection('about');
       if (hash === 'contact') setActiveSection('contact');
     } else {
-      if (path === '/' && location.pathname === '/') {
+      if (path === '/' && pathname ==='/') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setActiveSection('home');
       } else {
@@ -155,9 +158,9 @@ const Navbar: React.FC = () => {
           <div className="flex items-center justify-between w-full gap-2 sm:gap-3 md:gap-4 lg:gap-6">
             {/* Logo - Left Side */}
             <Link 
-              to="/" 
+              href="/" 
               onClick={(e) => {
-                if (location.pathname === '/') {
+                if (pathname ==='/') {
                   e.preventDefault();
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                   setActiveSection('home');
@@ -172,7 +175,7 @@ const Navbar: React.FC = () => {
               >
                 <img
                   src="/Logo Chatgpt.png"
-                  alt="Aqsa Tech Logo"
+                  alt="Aqsatech in Dubai - Aqsa Tech UAE Logo - Technical Services Dubai"
                   loading="eager"
                   fetchPriority="high"
                   className="h-10 sm:h-12 md:h-16 lg:h-20 xl:h-24 w-auto object-contain transition-all duration-300 group-hover:opacity-90 max-h-12 sm:max-h-14 md:max-h-16 lg:max-h-20 xl:max-h-24"
@@ -559,10 +562,10 @@ const Navbar: React.FC = () => {
                   className="absolute inset-0 bg-gradient-to-br from-white via-white to-gray-50 border border-gray-200/80 shadow-lg rounded-xl sm:rounded-2xl"
                   animate={{
                     backgroundColor: isSideMenuOpen 
-                      ? 'rgba(17, 24, 39, 0.95)' 
-                      : 'rgba(255, 255, 255, 0.95)',
+                      ? 'rgba(17, 24, 39, 1)' 
+                      : 'rgba(255, 255, 255, 1)',
                     borderColor: isSideMenuOpen 
-                      ? 'rgba(17, 24, 39, 0.3)' 
+                      ? 'rgba(17, 24, 39, 0.5)' 
                       : 'rgba(229, 231, 235, 0.8)',
                   }}
                   transition={{ 
@@ -580,7 +583,10 @@ const Navbar: React.FC = () => {
                 <div className="relative z-20 w-4 h-4 sm:w-5 sm:h-5 flex flex-col justify-center items-center">
                   <motion.span
                     className="absolute w-4 sm:w-5 h-0.5 rounded-full origin-center"
-                    style={{ backgroundColor: isSideMenuOpen ? '#ffffff' : '#111827' }}
+                    style={{ 
+                      backgroundColor: isSideMenuOpen ? '#ffffff' : '#111827',
+                      boxShadow: isSideMenuOpen ? 'none' : '0 0 2px rgba(0,0,0,0.1)'
+                    }}
                     animate={{
                       rotate: isSideMenuOpen ? 45 : 0,
                       y: isSideMenuOpen ? 0 : -5,
@@ -595,7 +601,10 @@ const Navbar: React.FC = () => {
                   />
                   <motion.span
                     className="absolute w-4 sm:w-5 h-0.5 rounded-full origin-center"
-                    style={{ backgroundColor: isSideMenuOpen ? '#ffffff' : '#111827' }}
+                    style={{ 
+                      backgroundColor: isSideMenuOpen ? '#ffffff' : '#111827',
+                      boxShadow: isSideMenuOpen ? 'none' : '0 0 2px rgba(0,0,0,0.1)'
+                    }}
                     animate={{
                       opacity: isSideMenuOpen ? 0 : 1,
                       scale: isSideMenuOpen ? 0 : 1,
@@ -608,7 +617,10 @@ const Navbar: React.FC = () => {
                   />
                   <motion.span
                     className="absolute w-4 sm:w-5 h-0.5 rounded-full origin-center"
-                    style={{ backgroundColor: isSideMenuOpen ? '#ffffff' : '#111827' }}
+                    style={{ 
+                      backgroundColor: isSideMenuOpen ? '#ffffff' : '#111827',
+                      boxShadow: isSideMenuOpen ? 'none' : '0 0 2px rgba(0,0,0,0.1)'
+                    }}
                     animate={{
                       rotate: isSideMenuOpen ? -45 : 0,
                       y: isSideMenuOpen ? 0 : 5,
@@ -776,12 +788,16 @@ const Navbar: React.FC = () => {
                 <div className="pointer-events-none absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white/80 to-transparent" />
                 
                 {/* Header - Menu Title Only */}
-                <div className="flex items-center justify-center px-3 sm:px-5 py-4 sm:py-5 border-b border-gray-200/60 relative z-10 bg-white/30 backdrop-blur-sm">
+                <div className="flex items-center justify-center px-3 sm:px-5 py-4 sm:py-5 border-b border-gray-200/60 relative z-10 bg-white/50 backdrop-blur-sm">
                   <motion.h2 
-                    className="text-lg sm:text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent"
+                    className="text-lg sm:text-xl font-bold text-gray-900"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                    style={{ 
+                      color: '#111827',
+                      textShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                    }}
                   >
                     Menu
                   </motion.h2>
@@ -797,7 +813,7 @@ const Navbar: React.FC = () => {
                 >
                 {/* Main Navigation (same as navbar) */}
                 <div>
-                  <h3 className="text-xs sm:text-sm font-bold text-gray-900 uppercase tracking-wider mb-2 sm:mb-3">
+                  <h3 className="text-xs sm:text-sm font-bold text-gray-900 uppercase tracking-wider mb-2 sm:mb-3" style={{ color: '#111827' }}>
                     Navigation
                   </h3>
                   <div className="space-y-1.5 sm:space-y-2">
@@ -815,6 +831,9 @@ const Navbar: React.FC = () => {
                           ? 'text-brand-blue'
                           : 'text-gray-900 hover:text-brand-blue'
                       } text-left`}
+                      style={{ 
+                        color: (hoveredMenuLink === 'home' || isHomeActive) ? undefined : '#111827'
+                      }}
                     >
                       {(hoveredMenuLink === 'home' || isHomeActive) && (
                         <motion.div
@@ -848,6 +867,9 @@ const Navbar: React.FC = () => {
                           ? 'text-brand-blue'
                           : 'text-gray-900 hover:text-brand-blue'
                       } text-left`}
+                      style={{ 
+                        color: (hoveredMenuLink === 'about' || isAboutActive) ? undefined : '#111827'
+                      }}
                     >
                       {(hoveredMenuLink === 'about' || isAboutActive) && (
                         <motion.div
@@ -881,6 +903,9 @@ const Navbar: React.FC = () => {
                           ? 'text-brand-blue'
                           : 'text-gray-900 hover:text-brand-blue'
                       } text-left`}
+                      style={{ 
+                        color: (hoveredMenuLink === 'services' || isServicesActive) ? undefined : '#111827'
+                      }}
                     >
                       {(hoveredMenuLink === 'services' || isServicesActive) && (
                         <motion.div
@@ -914,6 +939,9 @@ const Navbar: React.FC = () => {
                           ? 'text-brand-blue'
                           : 'text-gray-900 hover:text-brand-blue'
                       } text-left`}
+                      style={{ 
+                        color: (hoveredMenuLink === 'blog' || isBlogActive) ? undefined : '#111827'
+                      }}
                     >
                       {(hoveredMenuLink === 'blog' || isBlogActive) && (
                         <motion.div
@@ -947,6 +975,9 @@ const Navbar: React.FC = () => {
                           ? 'text-brand-blue'
                           : 'text-gray-900 hover:text-brand-blue'
                       } text-left`}
+                      style={{ 
+                        color: (hoveredMenuLink === 'contact' || isContactActive) ? undefined : '#111827'
+                      }}
                     >
                       {(hoveredMenuLink === 'contact' || isContactActive) && (
                         <motion.div
@@ -971,7 +1002,7 @@ const Navbar: React.FC = () => {
 
                  {/* Inspiration Section (visual only, no navigation) */}
                  <div>
-                   <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-2">
+                   <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-2" style={{ color: '#111827' }}>
                      Inspiration
                    </h3>
                    <div className="space-y-1.5">
@@ -1218,4 +1249,5 @@ const Navbar: React.FC = () => {
   );
 };
 
-export default Navbar;
+// Memoize Navbar to prevent unnecessary re-renders
+export default memo(Navbar);

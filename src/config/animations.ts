@@ -15,46 +15,46 @@ export const easings = {
   instant: [0.1, 0, 0.1, 1] as [number, number, number, number],
 };
 
-// Optimized spring configurations for 120Hz
+// Optimized spring configurations for 144Hz
 export const springs = {
-  // Fast, responsive spring
+  // Fast, responsive spring - 144Hz optimized
   fast: {
-    type: "spring" as const,
-    stiffness: 500,
-    damping: 30,
-    mass: 0.5,
-  },
-  // Smooth, professional spring
-  smooth: {
-    type: "spring" as const,
-    stiffness: 400,
-    damping: 25,
-    mass: 0.6,
-  },
-  // Quick micro-interactions
-  quick: {
     type: "spring" as const,
     stiffness: 600,
     damping: 35,
     mass: 0.4,
   },
-  // Gentle, elegant spring
+  // Smooth, professional spring - 144Hz optimized
+  smooth: {
+    type: "spring" as const,
+    stiffness: 500,
+    damping: 30,
+    mass: 0.5,
+  },
+  // Quick micro-interactions - 144Hz optimized
+  quick: {
+    type: "spring" as const,
+    stiffness: 700,
+    damping: 40,
+    mass: 0.3,
+  },
+  // Gentle, elegant spring - 144Hz optimized
   gentle: {
     type: "spring" as const,
-    stiffness: 300,
-    damping: 20,
-    mass: 0.7,
+    stiffness: 400,
+    damping: 25,
+    mass: 0.6,
   },
 };
 
-// Optimized durations (faster for 120Hz)
+// Optimized durations (faster for 144Hz)
 export const durations = {
-  instant: 0.1,
-  fast: 0.15,
-  normal: 0.2,
-  smooth: 0.25,
-  medium: 0.3,
-  slow: 0.4,
+  instant: 0.08,
+  fast: 0.12,
+  normal: 0.16,
+  smooth: 0.2,
+  medium: 0.25,
+  slow: 0.3,
 };
 
 // Common animation variants

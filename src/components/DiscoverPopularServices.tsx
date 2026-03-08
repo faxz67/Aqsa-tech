@@ -1,10 +1,13 @@
-import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+"use client";
+import { useRouter } from 'next/navigation';
+import React, { useState, useMemo, useRef, useEffect, useCallback, memo } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { useNavigate } from 'react-router-dom';
+;
 import { useTranslatedServices } from '../hooks/useTranslatedServices';
 import ProButton from './ui/ProButton';
+import { gpuAccelerate, optimizeImage } from '../utils/performance144';
 
 interface Service {
   id: number;
@@ -16,7 +19,8 @@ interface Service {
 
 const DiscoverPopularServices: React.FC = () => {
   const { t, isRTL } = useLanguage();
-  const navigate = useNavigate();
+  const ___router = useRouter();
+  const navigate = (path: string | number) => { if (typeof path === "number" && path === -1) { ___router.back(); } else if (typeof path === "string") { ___router.push(path); } };
   const { services: allServices } = useTranslatedServices();
   const [currentIndex, setCurrentIndex] = useState(0);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -25,7 +29,7 @@ const DiscoverPopularServices: React.FC = () => {
   const [gap, setGap] = useState(12);
 
   const AUTO_INTERVAL = 2000; // smoother auto advance (ms)
-  
+
   // Memoize services array to prevent recreation on every render
   const services: Service[] = useMemo(() => [
     {
@@ -175,7 +179,7 @@ const DiscoverPopularServices: React.FC = () => {
   // For continuous running ribbon feel, duplicate the array multiple times
   const ribbonServices = useMemo(() => [...services, ...services, ...services, ...services], [services, allServices]);
 
-  // Measure actual card width and gap from DOM
+  // Measure actual card width and gap from DOM - Optimized for 144Hz
   useEffect(() => {
     const updateDimensions = () => {
       if (cardRef.current && containerRef.current) {
@@ -189,21 +193,36 @@ const DiscoverPopularServices: React.FC = () => {
       }
     };
 
-    // Initial measurement after render
-    const timeoutId = setTimeout(updateDimensions, 100);
-    window.addEventListener('resize', updateDimensions);
-    
-    const resizeObserver = new ResizeObserver(updateDimensions);
+    // Initial measurement after render - use RAF for smoother updates
+    requestAnimationFrame(() => {
+      setTimeout(updateDimensions, 100);
+    });
+
+    // Throttle resize for 144Hz
+    let resizeTimeout: ReturnType<typeof setTimeout>;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(updateDimensions, 16); // ~60fps for resize
+    };
+
+    window.addEventListener('resize', handleResize, { passive: true });
+
+    const resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(updateDimensions);
+    });
+
     if (cardRef.current) {
       resizeObserver.observe(cardRef.current);
+      gpuAccelerate(cardRef.current);
     }
     if (containerRef.current) {
       resizeObserver.observe(containerRef.current);
+      gpuAccelerate(containerRef.current);
     }
 
     return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener('resize', updateDimensions);
+      clearTimeout(resizeTimeout);
+      window.removeEventListener('resize', handleResize);
       resizeObserver.disconnect();
     };
   }, []);
@@ -218,7 +237,7 @@ const DiscoverPopularServices: React.FC = () => {
 
   // Auto-scroll - Direction depends on RTL
   const [isPaused, setIsPaused] = useState(false);
-  
+
   React.useEffect(() => {
     if (isPaused) return;
     const id = setInterval(() => {
@@ -257,7 +276,7 @@ const DiscoverPopularServices: React.FC = () => {
           >
             <span className="w-2 h-2 rounded-full bg-brand-blue" />
             <span className="text-[10px] sm:text-[11px] lg:text-xs font-semibold tracking-[0.18em] uppercase text-gray-700">
-            {t('discoverServices.title')}
+              {t('discoverServices.title')}
             </span>
           </motion.div>
           <motion.h2
@@ -286,17 +305,24 @@ const DiscoverPopularServices: React.FC = () => {
             <motion.div
               ref={containerRef}
               className={`flex gap-3 sm:gap-4 lg:gap-5 items-stretch ${isRTL ? 'flex-row-reverse' : ''}`}
-              style={{ 
-                x: isRTL 
+              style={{
+                x: isRTL
+                  ? `${(currentIndex % services.length) * (cardWidth + gap)}px`
+                  : `-${(currentIndex % services.length) * (cardWidth + gap)}px`,
+                willChange: 'transform',
+                transform: 'translateZ(0)',
+                backfaceVisibility: 'hidden'
+              }}
+              animate={{
+                x: isRTL
                   ? `${(currentIndex % services.length) * (cardWidth + gap)}px`
                   : `-${(currentIndex % services.length) * (cardWidth + gap)}px`
               }}
-              animate={{ 
-                x: isRTL 
-                  ? `${(currentIndex % services.length) * (cardWidth + gap)}px`
-                  : `-${(currentIndex % services.length) * (cardWidth + gap)}px`
+              transition={{
+                ease: 'linear',
+                duration: AUTO_INTERVAL / 1000,
+                type: 'tween' as const
               }}
-              transition={{ ease: 'linear', duration: AUTO_INTERVAL / 1000 }}
             >
               {ribbonServices.map((service, idx) => (
                 <div
@@ -304,25 +330,36 @@ const DiscoverPopularServices: React.FC = () => {
                   ref={idx === 0 ? cardRef : null}
                   className="flex-shrink-0 w-[280px] sm:w-[300px] md:w-[320px] lg:w-[340px] xl:w-[360px]"
                 >
-                  <div 
-                    className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 w-full h-full flex flex-col"
+                  <div
+                    className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-transform duration-200 w-full h-full flex flex-col"
+                    style={{
+                      transform: 'translateZ(0)',
+                      willChange: 'transform',
+                      backfaceVisibility: 'hidden'
+                    }}
                   >
-                    {/* Image Section */}
+                    {/* Image Section - 144Hz Optimized */}
                     <div className="relative h-56 sm:h-60 md:h-64 lg:h-72 overflow-hidden bg-gray-100 flex-shrink-0">
                       <img
+                        ref={(img) => {
+                          if (img) optimizeImage(img);
+                        }}
                         src={service.image}
                         alt={service.title}
                         loading="lazy"
                         decoding="async"
-
-
                         width={400}
                         height={300}
                         sizes="(max-width: 640px) 280px, (max-width: 768px) 300px, (max-width: 1024px) 320px, 360px"
                         className="w-full h-full object-cover object-center"
-                        style={{ contentVisibility: 'auto' }}
+                        style={{
+                          contentVisibility: 'auto',
+                          transform: 'translateZ(0)',
+                          backfaceVisibility: 'hidden',
+                          willChange: 'transform'
+                        }}
                       />
-                      
+
                       {/* Tags on Image */}
                       <div className="absolute bottom-2 left-2 right-2 flex flex-wrap gap-1 sm:gap-1.5 justify-center">
                         {service.tags.map((tag, tagIndex) => (
@@ -370,6 +407,7 @@ const DiscoverPopularServices: React.FC = () => {
         {/* Navigation Arrows - Shown on all devices */}
         <div className={`flex justify-center items-center gap-3 sm:gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
           <motion.button
+            suppressHydrationWarning
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={isRTL ? handleNext : handlePrev}
@@ -384,6 +422,7 @@ const DiscoverPopularServices: React.FC = () => {
           </motion.button>
 
           <motion.button
+            suppressHydrationWarning
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={isRTL ? handlePrev : handleNext}
@@ -402,4 +441,5 @@ const DiscoverPopularServices: React.FC = () => {
   );
 };
 
-export default DiscoverPopularServices;
+// Memoize component to prevent unnecessary re-renders
+export default memo(DiscoverPopularServices);

@@ -1,34 +1,48 @@
-# robots.txt for aqsatech.ae
-# Optimized for Google Search Engine
-# Updated: December 4, 2025
+# robots.txt for aqsatech.ae - Aqsatech in Dubai
+# Optimized for Maximum Google Search Visibility
+# Target Keyword: "aqsatech in dubai"
+# Updated: January 6, 2026
 
+# Default rule for all robots
 User-agent: *
 Allow: /
-
-# Disallow admin and private areas
 Disallow: /admin/
 Disallow: /private/
 Disallow: /api/
 Disallow: /*.json$
 Disallow: /node_modules/
+Disallow: /dist/
+Disallow: /src/
+Disallow: /.git/
+Disallow: /*.map$
 
-# Allow all important pages
+# Allow all important pages and resources
 Allow: /
 Allow: /services/
+Allow: /services/*
 Allow: /blog/
+Allow: /blog/*
 Allow: /about
 Allow: /contact
+Allow: /privacy-policy
+Allow: /terms-of-service
 Allow: /*.jpg$
+Allow: /*.jpeg$
 Allow: /*.png$
 Allow: /*.webp$
+Allow: /*.avif$
 Allow: /*.svg$
+Allow: /*.gif$
+Allow: /*.css$
+Allow: /*.js$
 Allow: /sitemap.xml
+Allow: /robots.txt
 
-# Sitemap location (Primary)
+# Sitemap location (Primary) - Critical for SEO
 Sitemap: https://aqsatech.ae/sitemap.xml
 
-# Crawl-delay (optional, helps with server load)
-Crawl-delay: 1
+# No crawl delay for default bots
+Crawl-delay: 0
 
 # Specific rules for major search engines
 User-agent: Googlebot
